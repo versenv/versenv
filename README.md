@@ -5,6 +5,7 @@
 
 Are you suffering from any of these problems?
 
+- Different versions of kubectl should be used for each participating project.
 - Different team members have different versions of kubectl installed in their environment.
 - You have to explain to each person how to install the correct version of kubectl.
 - Even if you explain it, they don't always install the correct version of kubectl.
@@ -128,15 +129,15 @@ on darwin_amd64
 - You can run `install.sh` to install a set of versenv scripts at once:
 
   ```bash
-  curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=./bin bash
+  curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=. bash
   ```
 
-- e.g.
+  - e.g.
 
-  ```console
-  $ mkdir -p ./bin
-  $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=./bin bash
-  2022-04-11T04:02:56+09:00 [   NOTICE] Start downloading versenv scripts to /Users/dummy/go/src/github.com/dummy/devops/bin
-    ...
-  2022-04-11T04:03:01+09:00 [   NOTICE] Complete!
-  ```
+    ```console
+    $ mkdir -p ./bin
+    $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=./bin bash
+    2022-04-11T04:02:56+09:00 [   NOTICE] Start downloading versenv scripts to /Users/dummy/go/src/github.com/dummy/devops/bin
+      ...
+    2022-04-11T04:03:01+09:00 [   NOTICE] Complete!
+    ```
