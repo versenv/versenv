@@ -5,9 +5,9 @@
 Are you suffering from any of these problems?
 
 - Different team members have different versions of kubectl installed in their environment.
-- I have to explain to each person how to install the correct version of kubectl.
-- Even if I explain it, they don't install the correct version of kubectl.
-- I have the same problem with terraform, packer, etc.
+- You have to explain to each person how to install the correct version of kubectl.
+- Even if you explain it, they don't always install the correct version of kubectl.
+- You have the same problems with terraform, packer, etc.
 
 If so, `versenv` solves them.
 
@@ -15,19 +15,21 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 
 `versenv` supports the following:
 
-| `versenv` file                | target                                          |
-|:------------------------------|:------------------------------------------------|
-| [`terraform`](/bin/terraform) | <https://www.terraform.io/>                     |
-| [`packer`](/bin/packer)       | <https://www.packer.io/>                        |
-| [`kubectl`](/bin/kubectl)     | <https://kubernetes.io/docs/reference/kubectl/> |
-| [`stern`](/bin/stern)         | <https://github.com/stern/stern>                |
+<!-- markdownlint-disable MD033 MD034 -->
+| `versenv` file                | target                                        | download `versenv` file one-liner                                                                                                                          |
+|:------------------------------|:----------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`kubectl`](/bin/kubectl)     | https://kubernetes.io/docs/reference/kubectl/ | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/kubectl -o ./kubectl && chmod +x ./kubectl</pre></code>       |
+| [`terraform`](/bin/terraform) | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/terraform -o ./terraform && chmod +x ./terraform</pre></code> |
+| [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/packer -o ./packer && chmod +x ./packer</pre></code>          |
+| [`stern`](/bin/stern)         | https://github.com/stern/stern                | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/stern -o ./stern && chmod +x ./stern </pre></code>            |
+<!-- markdownlint-enable -->
 
 ## HOW TO USE
 
 Download any wrapper script provided by `versenv`:
 
 ```console
-$ curl -#LR https://github.com/newtstat/versenv/releases/latest/download/kubectl -o ./kubectl && chmod +x ./kubectl
+$ curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/kubectl -o ./kubectl && chmod +x ./kubectl
 ########################################################################################## 100.0%
 ```
 
@@ -35,7 +37,7 @@ Set the environment variable `COMMAND_VERSION` (e.g. `KUBECTL_VERSION`, `TERRAFO
 
 ```console
 $ # Automatically downloads and executes the specified version of the executable file.
-$ KUBECTL_VERSION=1.23.5 kubectl version --client
+$ KUBECTL_VERSION=1.23.5 ./kubectl version --client
 2022-04-10T11:19:21+09:00 [   NOTICE] Download https://storage.googleapis.com/kubernetes-release/release/v1.23.5/bin/darwin/amd64/kubectl
 2022-04-10T11:19:21+09:00 [     INFO] $ curl -#fLR https://storage.googleapis.com/kubernetes-release/release/v1.23.5/bin/darwin/amd64/kubectl -o /Users/dummy/.cache/versenv/tmp/kubectl
 ########################################################################################## 100.0%
@@ -45,7 +47,7 @@ $ KUBECTL_VERSION=1.23.5 kubectl version --client
 Client Version: version.Info{Major:"1", Minor:"23", GitVersion:"v1.23.5", GitCommit:"c285e781331a3785a7f436042c65c5641ce8a9e9", GitTreeState:"clean", BuildDate:"2022-03-16T15:58:47Z", GoVersion:"go1.17.8", Compiler:"gc", Platform:"darwin/amd64"}
 
 $ # From the second time on, the downloaded executable file is used.
-$ KUBECTL_VERSION=1.23.5 kubectl version --client
+$ KUBECTL_VERSION=1.23.5 ./kubectl version --client
 Client Version: version.Info{Major:"1", Minor:"23", GitVersion:"v1.23.5", GitCommit:"c285e781331a3785a7f436042c65c5641ce8a9e9", GitTreeState:"clean", BuildDate:"2022-03-16T15:58:47Z", GoVersion:"go1.17.8", Compiler:"gc", Platform:"darwin/amd64"}
 ```
 
@@ -59,8 +61,8 @@ Specify the versions of each command in the `.envrc` file and git commit it in t
 $ # Create a bin directory in the root of the DevOps repository and install the scripts there.
 $ cd "$(git rev-parse --show-toplevel)"
 $ mkdir -p ./bin
-$ curl -#LR https://github.com/newtstat/versenv/releases/latest/download/kubectl -o ./bin/kubectl && chmod +x ./bin/kubectl
-$ curl -#LR https://github.com/newtstat/versenv/releases/latest/download/terraform -o ./bin/terraform && chmod +x ./bin/terraform
+$ curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/kubectl -o ./bin/kubectl && chmod +x ./bin/kubectl
+$ curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/terraform -o ./bin/terraform && chmod +x ./bin/terraform
 
 $ # Specify the versions of each command in .envrc
 $ cat <<'EOF' > .envrc
