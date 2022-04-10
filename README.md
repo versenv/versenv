@@ -1,12 +1,30 @@
-# versenv
+# [`versenv`](https://github.com/newtstat/versenv)
 
-`versenv` is a wrapper scripts to simplify version control of executable files such as kubectl, Terraform, and Packer.
+`versenv` is a set of wrapper scripts to simplify the installation and versioning of executables such as kubectl, Terraform and Packer.
 
-Each wrapper script automatically downloads the executable file that the version specified by the environment variable and executes, and behaves like each command.
+Are you suffering from any of these problems?
+
+- Different team members have different versions of kubectl installed in their environment.
+- I have to explain to each person how to install the correct version of kubectl.
+- Even if I explain it, they don't install the correct version of kubectl.
+- I have the same problem with terraform, packer, etc.
+
+If so, `versenv` solves them.
+
+Each wrapper script provided by `versenv` automatically downloads the executable file that the version specified by the environment variable and executes, and behaves like each command.
+
+`versenv` supports the following:
+
+| `versenv` file                | target                                          |
+|:------------------------------|:------------------------------------------------|
+| [`terraform`](/bin/terraform) | <https://www.terraform.io/>                     |
+| [`packer`](/bin/packer)       | <https://www.packer.io/>                        |
+| [`kubectl`](/bin/kubectl)     | <https://kubernetes.io/docs/reference/kubectl/> |
+| [`stern`](/bin/stern)         | <https://github.com/stern/stern>                |
 
 ## HOW TO USE
 
-Download any wrapper script:
+Download any wrapper script provided by `versenv`:
 
 ```console
 $ curl -#LR https://github.com/newtstat/versenv/releases/latest/download/kubectl -o ./kubectl && chmod +x ./kubectl
@@ -79,7 +97,7 @@ on darwin_amd64
     Client Version: version.Info{Major:"1", Minor:"22", GitVersion:"v1.22.8", GitCommit:"7061dbbf75f9f82e8ab21f9be7e8ffcaae8e0d44", GitTreeState:"clean", BuildDate:"2022-03-16T14:10:06Z", GoVersion:"go1.16.15", Compiler:"gc", Platform:"darwin/amd64"}
     ```
 
-### kubectl
+### `kubectl`, `stern`
 
 - Enables switching of kubectl context with the environment variable `KUBECTL_CONTEXT`.
   - e.g.
