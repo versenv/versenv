@@ -9,7 +9,7 @@ env_key_version=KUBECTL_VERSION
 download_url_prefix="https://storage.googleapis.com/kubernetes-release/release"
 
 GetProgramLatestStableVersion() { HeadURL https://github.com/kubernetes/kubernetes/releases/latest | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
-SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/kubernetes/kubernetes.git | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | sort -V; }
+SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/kubernetes/kubernetes.git | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
 
 InstallProgram() {

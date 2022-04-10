@@ -9,7 +9,7 @@ env_key_version=STERN_VERSION
 download_url_prefix="https://github.com/stern/stern/releases/download"
 
 GetProgramLatestStableVersion() { HeadURL https://github.com/${exe_filename:?}/${exe_filename:?}/releases/latest | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
-SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/${exe_filename:?}/${exe_filename:?}.git | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | sort -uV; }
+SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/${exe_filename:?}/${exe_filename:?}.git | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
 
 InstallProgram() {

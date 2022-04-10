@@ -9,7 +9,7 @@ env_key_version=EKSCTL_VERSION
 download_url_prefix="https://github.com/weaveworks/eksctl/releases/download"
 
 GetProgramLatestStableVersion() { HeadURL https://github.com/weaveworks/${exe_filename:?}/releases/latest | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
-SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/weaveworks/${exe_filename:?}.git | grep -Eo "v[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
+SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/weaveworks/${exe_filename:?}.git | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
 
 InstallProgram() {
@@ -49,14 +49,7 @@ ExecProgram() {
     InstallProgram "${prog_version:?}"
   fi
   # exec
-  if echo "$*" | grep -q -- "--context[[:space:]=]"; then
-    exec "${prog_version_exe:?}" "$@" </dev/stdin
-  elif [[ ${KUBECTL_CONTEXT:-} ]]; then
-    RecInfo "$ ${exe_filename:?} --context=${KUBECTL_CONTEXT:?} $*"
-    exec "${prog_version_exe:?}" --context="${KUBECTL_CONTEXT:?}" "$@" </dev/stdin
-  else
-    exec "${prog_version_exe:?}" "$@" </dev/stdin
-  fi
+  exec "${prog_version_exe:?}" "$@" </dev/stdin
 }
 
 # MIT License Copyright (c) 2021 newtstat https://github.com/rec-logger/rec.sh
