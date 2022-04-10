@@ -81,9 +81,9 @@ DownloadURL() {
   local url="${1:?}"
   local file="${2:?}"
   if command -v curl >/dev/null; then
-    RecExec curl -#fLR "${url:?}" -o "${file:?}"
+    RecExec curl --tlsv1.2 --progress-bar -fLR "${url:?}" -o "${file:?}"
   elif command -v wget >/dev/null; then
-    RecExec wget -c "${url:?}" -O "${file:?}"
+    RecExec wget --secure-protocol=TLSv1_2 --show-progress -q "${url:?}" -O "${file:?}"
   else
     RecCritical "command not found: curl or wget"
     exit 127
@@ -93,9 +93,9 @@ DownloadURL() {
 GetURL() {
   local url="${1:?}"
   if command -v curl >/dev/null; then
-    curl -fLRSs "${url:?}"
+    curl --tlsv1.2 -fLRSs "${url:?}"
   elif command -v wget >/dev/null; then
-    wget -O- -q "${url:?}"
+    wget --secure-protocol=TLSv1_2 -q -O- "${url:?}"
   else
     RecCritical "command not found: curl or wget"
     exit 127
@@ -105,9 +105,9 @@ GetURL() {
 HeadURL() {
   local url="${1:?}"
   if command -v curl >/dev/null; then
-    curl -fIRSs "${url:?}"
+    curl --tlsv1.2 -fIRSs "${url:?}"
   elif command -v wget >/dev/null; then
-    LC_ALL=C wget -S --max-redirect=0 --spider "${url:?}" -O /dev/null 2>&1 | awk -F"  " "/  / {print \$2}"
+    LC_ALL=C wget --secure-protocol=TLSv1_2 -S --spider --max-redirect=0 "${url:?}" -O /dev/null 2>&1 | awk -F"  " "/  / {print \$2}"
   else
     RecCritical "command not found: curl or wget"
     exit 127
@@ -117,9 +117,11 @@ HeadURL() {
 SubcommandSelfUpdate() {
   local self_update_url="https://github.com/newtstat/versenv/releases/latest/download/${exe_filename:?}"
   local script_file_path="${0:?}"
-  local tmp_file=/tmp/versenv-${exe_filename:?}.sh
+  local tmp_dir=/tmp/versenv/bin
+  local tmp_file=${tmp_dir:?}/${exe_filename:?}
   local backup_file="${tmp_file:?}.backup"
   RecNotice "Download ${self_update_url:?}"
+  mkdir -p "${tmp_dir:?}"
   DownloadURL "${self_update_url:?}" "${tmp_file:?}"
   RecNotice "Take backup ${script_file_path:?} to ${backup_file:?}"
   RecExec mv -f "${script_file_path:?}" "${backup_file:?}"
