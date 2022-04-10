@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD013 -->
 # [`versenv`](https://github.com/newtstat/versenv)
 
 `versenv` is a set of wrapper scripts to simplify the installation and versioning of executables such as kubectl, Terraform and Packer.
@@ -23,6 +24,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/packer -o ./packer && chmod +x ./packer</pre></code>          |
 | [`stern`](/bin/stern)         | https://github.com/stern/stern                | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/stern -o ./stern && chmod +x ./stern </pre></code>            |
 <!-- markdownlint-enable -->
+<!-- markdownlint-disable MD013 -->
 
 ## HOW TO USE
 
@@ -117,3 +119,23 @@ on darwin_amd64
     NAME                    READY   STATUS    RESTARTS   AGE
     bravo-ffffffffff-fffff  1/1     Running   0          2m
     ```
+
+## Other
+
+### `install.sh`
+
+- You can run `install.sh` to install a set of versenv scripts at once:
+
+  ```bash
+  curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=./bin bash
+  ```
+
+- e.g.
+
+  ```console
+  $ mkdir -p ./bin
+  $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=./bin bash
+  2022-04-11T04:02:56+09:00 [   NOTICE] Start downloading versenv scripts to /Users/dummy/go/src/github.com/dummy/devops/bin
+    ...
+  2022-04-11T04:03:01+09:00 [   NOTICE] Complete!
+  ```

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # HOW TO USE
-# $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/download.sh | DOWNLOAD_DIR=/tmp/versenv/bin bash
+# $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
 
 # MIT License Copyright (c) 2021 newtstat https://github.com/rec-logger/rec.sh
 # Common
@@ -33,12 +33,12 @@ DownloadURL() {
   fi
 }
 
-DownloadVersenvScript() {
+InstallVersenvScript() {
   # args
-  local versenv_script_name=${1:?"DownloadVersenvScript: versenv_script_name is empty"}
-  local download_dir=${2:?"DownloadVersenvScript: download_dir is empty"}
+  local versenv_script_name=${1:?"InstallVersenvScript: versenv_script_name is empty"}
+  local install_dir=${2:?"InstallVersenvScript: install_dir is empty"}
   # vars
-  local download_path="${download_dir:?}/${versenv_script_name:?}"
+  local download_path="${install_dir:?}/${versenv_script_name:?}"
   # main
   DownloadURL "https://github.com/newtstat/versenv/releases/latest/download/${versenv_script_name:?}" "${download_path:?}"
   chmod +x "${download_path:?}"
@@ -46,14 +46,14 @@ DownloadVersenvScript() {
 
 Main() {
   # vars
-  # shellcheck disable=SC2001
   local scripts=(kubectl packer stern terraform)
-  local download_dir && download_dir=$(echo "${DOWNLOAD_DIR:-"${PWD:-.}"}" | sed "s@//*@/@g")
+  # shellcheck disable=SC2001
+  local install_dir && install_dir=$(echo "${INSTALL_DIR:-"${PWD:-.}"}" | sed "s@//*@/@g")
   # main
-  RecNotice "Start downloading versenv scripts to ${download_dir:?}"
-  mkdir -p "${download_dir:?}"
+  RecNotice "Start downloading versenv scripts to ${install_dir:?}"
+  mkdir -p "${install_dir:?}"
   for versenv_script_name in "${scripts[@]}"; do
-    DownloadVersenvScript "${versenv_script_name:?}" "${download_dir:?}"
+    InstallVersenvScript "${versenv_script_name:?}" "${install_dir:?}"
   done
   RecNotice "Complete!"
 }
