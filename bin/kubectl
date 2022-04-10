@@ -28,7 +28,7 @@ InstallProgram() {
   fi
   local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
   local download_url && download_url="${download_url_prefix:?}/v${prog_version:?}/bin/${prog_os:?}/${prog_arch:?}/${exe_filename:?}"
-  local downloaded_path && downloaded_path=${tmp_dir:?}/$(basename "${download_url:?}")
+  local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
   # download
   RecNotice "Download ${download_url:?}"
   DownloadURL "${download_url:?}" "${downloaded_path:?}"
@@ -172,15 +172,15 @@ Prepare() {
   fi
   # common vars
   cache_dir=~/.cache/versenv
-  tmp_dir="${cache_dir:?}/tmp"
   # vars
   prog_version="$(ResolveProgramVersion)"
   prog_versions_dir="${cache_dir:?}/${exe_filename:?}"
   prog_version_dir="${prog_versions_dir:?}/${prog_version:?}"
+  prog_version_tmp_dir="${prog_version_dir:?}/tmp"
   prog_version_bin_dir="${prog_version_dir:?}/bin"
   prog_version_exe="${prog_version_bin_dir:?}/${exe_filename:?}"
   # Create directories in idempotent
-  mkdir -p "${tmp_dir:?}" "${prog_version_bin_dir:?}"
+  mkdir -p "${prog_version_tmp_dir:?}" "${prog_version_bin_dir:?}"
 }
 
 Main() {

@@ -23,6 +23,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`terraform`](/bin/terraform) | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/terraform -o ./terraform && chmod +x ./terraform</pre></code> |
 | [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/packer -o ./packer && chmod +x ./packer</pre></code>          |
 | [`stern`](/bin/stern)         | https://github.com/stern/stern                | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/stern -o ./stern && chmod +x ./stern </pre></code>            |
+| [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
 <!-- markdownlint-enable -->
 <!-- markdownlint-disable MD013 -->
 
