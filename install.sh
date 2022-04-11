@@ -46,7 +46,11 @@ InstallVersenvScript() {
 
 Main() {
   # vars
-  local scripts=(kubectl terraform packer stern eksctl helm)
+  # shellcheck disable=SC2207
+  local scripts=($(echo "${SCRIPTS:-}" | tr "," " "))
+  if [[ ${#scripts[@]} -eq 0 ]]; then
+    scripts=(kubectl terraform packer stern eksctl helm)
+  fi
   # shellcheck disable=SC2001
   local install_dir && install_dir=$(echo "${INSTALL_DIR:-"${PWD:-.}"}" | sed "s@//*@/@g")
   # main
