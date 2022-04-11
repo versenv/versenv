@@ -65,9 +65,7 @@ Specify the versions of each command in the `.envrc` file and git commit it in t
 ```console
 $ # Create a bin directory in the root of the DevOps repository and install the scripts there.
 $ cd "$(git rev-parse --show-toplevel)"
-$ mkdir -p ./bin
-$ curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/kubectl -o ./bin/kubectl && chmod +x ./bin/kubectl
-$ curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/terraform -o ./bin/terraform && chmod +x ./bin/terraform
+$ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | VERSENV_SCRIPTS=kubectl,terraform VERSENV_PATH=./bin bash
 
 $ # Specify the versions of each command in .envrc
 $ cat <<'EOF' > .envrc
@@ -104,7 +102,7 @@ on darwin_amd64
     Client Version: version.Info{Major:"1", Minor:"22", GitVersion:"v1.22.8", GitCommit:"7061dbbf75f9f82e8ab21f9be7e8ffcaae8e0d44", GitTreeState:"clean", BuildDate:"2022-03-16T14:10:06Z", GoVersion:"go1.16.15", Compiler:"gc", Platform:"darwin/amd64"}
     ```
 
-### `kubectl`, `stern`
+### `kubectl`, `helm`, `stern`
 
 - Enables switching of kubectl context with the environment variable `KUBECTL_CONTEXT`.
   - e.g.
@@ -130,14 +128,14 @@ on darwin_amd64
 - You can run `install.sh` to install a set of versenv scripts at once:
 
   ```bash
-  curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=. bash
+  curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | VERSENV_PATH=. bash
   ```
 
   - e.g.
 
     ```console
     $ mkdir -p ./bin
-    $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | INSTALL_DIR=./bin bash
+    $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | VERSENV_PATH=./bin bash
     2022-04-11T04:02:56+09:00 [   NOTICE] Start downloading versenv scripts to /Users/dummy/go/src/github.com/dummy/devops/bin
       ...
     2022-04-11T04:03:01+09:00 [   NOTICE] Complete!

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeu -o pipefail
 
 # HOW TO USE
 # $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
@@ -47,14 +48,14 @@ InstallVersenvScript() {
 Main() {
   # vars
   # shellcheck disable=SC2207
-  local scripts=($(echo "${SCRIPTS:-}" | tr "," " "))
+  local scripts=($(echo "${VERSENV_SCRIPTS:-}" | sed "s/ *//g; s/,/ /g"))
   if [[ ${#scripts[@]} -eq 0 ]]; then
     scripts=(kubectl terraform packer stern eksctl helm)
   fi
   # shellcheck disable=SC2001
-  local install_dir && install_dir=$(echo "${INSTALL_DIR:-"${PWD:-.}"}" | sed "s@//*@/@g")
+  local install_dir && install_dir=$(echo "${VERSENV_PATH:-"${VERSENV_DIR:-"${PWD:-.}"}"}" | sed "s|//*|/|g; s|/$||")
   # main
-  RecNotice "Start downloading versenv scripts to ${install_dir:?}"
+  RecNotice "Start downloading versenv scripts (${scripts[*]}) to ${install_dir:?}"
   mkdir -p "${install_dir:?}"
   for versenv_script_name in "${scripts[@]}"; do
     InstallVersenvScript "${versenv_script_name:?}" "${install_dir:?}"
