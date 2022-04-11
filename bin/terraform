@@ -148,8 +148,9 @@ ResolveProgramVersion() {
     elif [[ ${!env_key_version:-} ]]; then
       echo "${!env_key_version:?}"
     else
-      RecNotice "env ${env_key_version:?} is not set. Use latest stable version ${exe_filename:?}."
-      GetProgramLatestStableVersion
+      ver=$(GetProgramLatestStableVersion)
+      RecNotice "env ${env_key_version:?} is not set. Use latest stable version: ${env_key_version:?}=${ver:-"?"}"
+      echo "${ver:-}"
     fi
   )
   if [[ "${version:-}" ]]; then

@@ -25,6 +25,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/packer -o ./packer && chmod +x ./packer</pre></code>          |
 | [`stern`](/bin/stern)         | https://github.com/stern/stern                | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/stern -o ./stern && chmod +x ./stern </pre></code>            |
 | [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
+| [`helm`](/bin/helm)           | https://github.com/helm/helm                  | <pre><code>curl --tlsv1.2 -#fLR https://github.com/newtstat/versenv/releases/latest/download/helm -o ./helm && chmod +x ./helm</pre></code>                |
 <!-- markdownlint-enable -->
 <!-- markdownlint-disable MD013 -->
 

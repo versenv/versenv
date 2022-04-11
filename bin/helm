@@ -4,16 +4,15 @@
 set -Eeu -o pipefail
 
 # versenv unique
-exe_filename=stern
-env_key_version=STERN_VERSION
-download_url_prefix="https://github.com/stern/stern/releases/download"
+exe_filename=helm
+env_key_version=HELM_VERSION
+download_url_prefix="https://get.helm.sh"
 
-GetProgramLatestStableVersion() { HeadURL https://github.com/${exe_filename:?}/${exe_filename:?}/releases/latest | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
-SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/${exe_filename:?}/${exe_filename:?}.git | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
+GetProgramLatestStableVersion() { HeadURL "https://github.com/${exe_filename:?}/${exe_filename:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
+SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags "https://github.com/${exe_filename:?}/${exe_filename:?}.git" | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
 
 InstallProgram() {
-  MustFoundCommands tar
   Prepare
   # vars
   local prog_version="${1:?}"
@@ -28,7 +27,7 @@ InstallProgram() {
     exit 1
   fi
   local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
-  local download_url && download_url="${download_url_prefix:?}/v${prog_version:?}/${exe_filename:?}_${prog_version:?}_${prog_os:?}_${prog_arch:?}.tar.gz"
+  local download_url && download_url="${download_url_prefix:?}/${exe_filename:?}-v${prog_version:?}-${prog_os:?}-${prog_arch:?}.tar.gz"
   local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
   # download
   RecNotice "Download ${download_url:?}"
@@ -49,11 +48,11 @@ ExecProgram() {
     InstallProgram "${prog_version:?}"
   fi
   # exec
-  if echo "$*" | grep -q -- "--context[[:space:]=]"; then
+  if echo "$*" | grep -q -- "--kube-context[[:space:]=]"; then
     exec "${prog_version_exe:?}" "$@" </dev/stdin
   elif [[ ${KUBECTL_CONTEXT:-} ]]; then
-    RecInfo "$ ${exe_filename:?} --context=${KUBECTL_CONTEXT:?} $*"
-    exec "${prog_version_exe:?}" --context="${KUBECTL_CONTEXT:?}" "$@" </dev/stdin
+    RecInfo "$ ${exe_filename:?} --kube-context=${KUBECTL_CONTEXT:?} $*"
+    exec "${prog_version_exe:?}" --kube-context="${KUBECTL_CONTEXT:?}" "$@" </dev/stdin
   else
     exec "${prog_version_exe:?}" "$@" </dev/stdin
   fi
