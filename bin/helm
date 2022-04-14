@@ -49,12 +49,12 @@ ExecProgram() {
   fi
   # exec
   if echo "$*" | grep -q -- "--kube-context[[:space:]=]"; then
-    exec "${prog_version_exe:?}" "$@" </dev/stdin
+    exec "${prog_version_exe:?}" "$@" <&0
   elif [[ ${KUBECTL_CONTEXT:-} ]]; then
     RecInfo "$ ${exe_filename:?} --kube-context=${KUBECTL_CONTEXT:?} $*"
-    exec "${prog_version_exe:?}" --kube-context="${KUBECTL_CONTEXT:?}" "$@" </dev/stdin
+    exec "${prog_version_exe:?}" --kube-context="${KUBECTL_CONTEXT:?}" "$@" <&0
   else
-    exec "${prog_version_exe:?}" "$@" </dev/stdin
+    exec "${prog_version_exe:?}" "$@" <&0
   fi
 }
 

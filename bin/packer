@@ -49,7 +49,7 @@ ExecProgram() {
     InstallProgram "${prog_version:?}"
   fi
   # exec
-  exec "${prog_version_exe:?}" "$@" </dev/stdin
+  exec "${prog_version_exe:?}" "$@" <&0
 }
 
 # MIT License Copyright (c) 2021 newtstat https://github.com/rec-logger/rec.sh
