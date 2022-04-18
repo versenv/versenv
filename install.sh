@@ -48,12 +48,12 @@ InstallVersenvScript() {
 Main() {
   # vars
   # shellcheck disable=SC2207
-  local scripts=($(echo "${VERSENV_SCRIPTS:-}" | sed "s/ *//g; s/,/ /g"))
+  local -a scripts=($(echo "${VERSENV_SCRIPTS:-}" | sed "s/ *//g; s/,/ /g"))
   if [[ ${#scripts[@]} -eq 0 ]]; then
     scripts=(kubectl terraform packer stern eksctl helm)
   fi
   # shellcheck disable=SC2001
-  local install_dir && install_dir=$(echo "${VERSENV_PATH:-"${VERSENV_DIR:-"${PWD:-.}"}"}" | sed "s|//*|/|g; s|/$||")
+  local install_dir && install_dir=$(echo "${VERSENV_PATH:-"${PWD:-.}"}" | sed "s|//*|/|g; s|/$||")
   # main
   RecNotice "Start downloading versenv scripts (${scripts[*]}) to ${install_dir:?}"
   RecRun mkdir -p "${install_dir:?}"
