@@ -41,7 +41,7 @@ InstallVersenvScript() {
   # vars
   local download_path="${install_dir:?}/${versenv_script_name:?}"
   # main
-  DownloadURL "https://github.com/newtstat/versenv/releases/latest/download/${versenv_script_name:?}" "${download_path:?}"
+  DownloadURL "https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/${versenv_script_name:?}" "${download_path:?}"
   chmod +x "${download_path:?}"
 }
 
