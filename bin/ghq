@@ -4,11 +4,11 @@
 set -Eeu -o pipefail
 
 # versenv unique
-exe_filename=packer
-env_key_version=PACKER_VERSION
-download_url_prefix="https://releases.hashicorp.com/${exe_filename:?}"
+exe_filename=ghq
+env_key_version=GHQ_VERSION
+download_url_prefix="https://github.com/x-motemen/ghq/releases/download"
 
-GetProgramLatestStableVersion() { SubcommandGetProgramStableVersions | tail -n 1; }
+GetProgramLatestStableVersion() { HeadURL https://github.com/x-motemen/ghq/releases/latest | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
 SubcommandGetProgramVersions() { GetURL "${download_url_prefix:?}/" | grep -Eo "/${exe_filename:?}/[^/]+" | sed "s@/${exe_filename:?}/@@" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
 
@@ -28,7 +28,7 @@ InstallProgram() {
     exit 1
   fi
   local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
-  local download_url && download_url="${download_url_prefix:?}/${prog_version:?}/${exe_filename:?}_${prog_version:?}_${prog_os:?}_${prog_arch:?}.zip"
+  local download_url && download_url="${download_url_prefix:?}/v${prog_version:?}/${exe_filename:?}_${prog_os:?}_${prog_arch:?}.zip"
   local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
   # download
   RecNotice "Download ${download_url:?}"

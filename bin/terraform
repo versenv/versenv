@@ -35,7 +35,7 @@ InstallProgram() {
   DownloadURL "${download_url:?}" "${downloaded_path:?}"
   # install
   RecNotice "Install ${downloaded_path:?} to ${prog_version_exe:?}"
-  local exe_in_archive && exe_in_archive=$(unzip -l "${downloaded_path:?}" | awk -F" " "/${exe_filename:?}$/ {print \$NF}")
+  local exe_in_archive && exe_in_archive=$(unzip -l "${downloaded_path:?}" | awk -F" " "/[\/ ]${exe_filename:?}$/ {print \$NF}")
   local unziped_path="${prog_version_tmp_dir:?}/${exe_filename:?}"
   RecExec bash -c "unzip -p -o \"${downloaded_path:?}\" \"${exe_in_archive:?}\" > \"${unziped_path:?}\""
   RecExec mv -f "${unziped_path:?}" "${prog_version_exe:?}"

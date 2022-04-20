@@ -18,15 +18,23 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 `versenv` supports the following:
 
 <!-- markdownlint-disable MD033 MD034 -->
-| `versenv` file                        | target                                        | download `versenv` file one-liner                                                                                                                                     |
-|:--------------------------------------|:----------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`kubectl`](/bin/kubectl)             | https://kubernetes.io/docs/reference/kubectl/ | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./kubectl && chmod +x ./kubectl</pre></code>                   |
-| [`terraform`](/bin/terraform)         | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/terraform -o ./terraform && chmod +x ./terraform</pre></code>             |
-| [`packer`](/bin/packer)               | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/packer -o ./packer && chmod +x ./packer</pre></code>                      |
-| [`stern`](/bin/stern)                 | https://github.com/stern/stern                | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/stern -o ./stern && chmod +x ./stern </pre></code>                        |
-| [`eksctl`](/bin/eksctl)               | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>                      |
-| [`helm`](/bin/helm)                   | https://github.com/helm/helm                  | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/helm -o ./helm && chmod +x ./helm</pre></code>                            |
-| [`golangci-lint`](/bin/golangci-lint) | https://github.com/golangci/golangci-lint     | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/golangci-lint -o ./golangci-lint && chmod +x ./golangci-lint</pre></code> |
+| `versenv` file                | target                                        | download `versenv` file one-liner                                                                                                                         |
+|:------------------------------|:----------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`kubectl`](/bin/kubectl)     | https://kubernetes.io/docs/reference/kubectl/ | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./kubectl && chmod +x ./kubectl</pre></code>       |
+| [`terraform`](/bin/terraform) | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/terraform -o ./terraform && chmod +x ./terraform</pre></code> |
+| [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/packer -o ./packer && chmod +x ./packer</pre></code>          |
+| [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
+| [`helm`](/bin/helm)           | https://github.com/helm/helm                  | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/helm -o ./helm && chmod +x ./helm</pre></code>                |
+
+<details><summary>Other</summary>
+
+| `versenv` file                        | target                                    | download `versenv` file one-liner                                                                                                                                     |
+|:--------------------------------------|:------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`stern`](/bin/stern)                 | https://github.com/stern/stern            | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/stern -o ./stern && chmod +x ./stern</pre></code>                         |
+| [`golangci-lint`](/bin/golangci-lint) | https://github.com/golangci/golangci-lint | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/golangci-lint -o ./golangci-lint && chmod +x ./golangci-lint</pre></code> |
+| [`ghq`](/bin/ghq)                     | https://github.com/x-motemen/ghq          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/ghq -o ./ghq && chmod +x ./ghq</pre></code>                               |
+
+</details>
 <!-- markdownlint-enable -->
 <!-- markdownlint-disable MD013 -->
 
