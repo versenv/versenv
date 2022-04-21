@@ -34,11 +34,23 @@ InstallProgram() {
   DownloadURL "${download_url:?}" "${downloaded_path:?}"
   # install
   RecNotice "Install ${downloaded_path:?} to ${prog_version_exe:?}"
-  local exe_in_archive && exe_in_archive=$(tar tvfz "${downloaded_path:?}" | awk -F" " "/[\/ ]${exe_filename:?}$/ {print \$NF}")
   local unziped_path="${prog_version_tmp_dir:?}/${exe_filename:?}"
-  RecExec bash -c "tar -O -xf \"${downloaded_path:?}\" \"${exe_in_archive:?}\" > \"${unziped_path:?}\""
+  Unzip "${downloaded_path:?}" "${exe_filename:?}" "${unziped_path:?}"
   RecExec mv -f "${unziped_path:?}" "${prog_version_exe:?}"
   RecExec chmod +x "${prog_version_exe:?}"
+}
+
+Unzip() {
+  local source_zip_path="${1:?}"
+  local filename_in_archive="${2:?}"
+  local target_file_path="${3:?}"
+  if [[ "${source_zip_path:?}" =~ .+\.(tar|tgz|tar\.gz)$ ]]; then
+    local filepath_in_archive && filepath_in_archive=$(tar tvf "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
+    RecExec bash -c "tar -O -xf \"${source_zip_path:?}\" \"${filepath_in_archive:?}\" > \"${target_file_path:?}\""
+  elif [[ "${source_zip_path:?}" =~ .+\.zip$ ]]; then
+    local filepath_in_archive && filepath_in_archive=$(unzip -l "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
+    RecExec bash -c "unzip -p -o \"${source_zip_path:?}\" \"${filepath_in_archive:?}\" > \"${target_file_path:?}\""
+  fi
 }
 
 ExecProgram() {
