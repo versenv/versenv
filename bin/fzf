@@ -4,9 +4,9 @@
 set -Eeu -o pipefail
 
 # versenv unique
-exe_filename=stern
-env_key_version=STERN_VERSION
-git_url_prefix=https://github.com/stern/stern
+exe_filename=fzf
+env_key_version=FZF_VERSION
+git_url_prefix=https://github.com/junegunn/fzf
 
 GetProgramLatestStableVersion() { HeadURL "${git_url_prefix:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
 SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags "${git_url_prefix:?}.git" | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
@@ -34,7 +34,7 @@ Unzip() {
 }
 
 InstallProgram() {
-  MustFoundCommands tar
+  MustFoundCommands tar unzip
   Prepare
   # vars
   local prog_version="${1:?}"
@@ -69,14 +69,7 @@ ExecProgram() {
     InstallProgram "${prog_version:?}"
   fi
   # exec
-  if echo "$*" | grep -q -- "--context[[:space:]=]"; then
-    exec "${prog_version_exe:?}" "$@" <&0
-  elif [[ ${KUBECTL_CONTEXT:-} ]]; then
-    RecInfo "$ ${exe_filename:?} --context=${KUBECTL_CONTEXT:?} $*"
-    exec "${prog_version_exe:?}" --context="${KUBECTL_CONTEXT:?}" "$@" <&0
-  else
-    exec "${prog_version_exe:?}" "$@" <&0
-  fi
+  exec "${prog_version_exe:?}" "$@" <&0
 }
 
 # MIT License Copyright (c) 2021 newtstat https://github.com/rec-logger/rec.sh

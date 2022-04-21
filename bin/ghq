@@ -6,17 +6,39 @@ set -Eeu -o pipefail
 # versenv unique
 exe_filename=ghq
 env_key_version=GHQ_VERSION
-download_url_prefix="https://github.com/x-motemen/ghq/releases/download"
+git_url_prefix=https://github.com/x-motemen/ghq
 
-GetProgramLatestStableVersion() { HeadURL https://github.com/x-motemen/ghq/releases/latest | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
-SubcommandGetProgramVersions() { GetURL "${download_url_prefix:?}/" | grep -Eo "/${exe_filename:?}/[^/]+" | sed "s@/${exe_filename:?}/@@" | sort -uV; }
+GetProgramLatestStableVersion() { HeadURL "${git_url_prefix:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
+SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags "${git_url_prefix:?}.git" | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
+
+FindTargetZipDownloadURL() {
+  local prog_version="${1:?}"
+  local prog_os="${2:?}"
+  local prog_arch="${3:?}"
+  local path_suffix && path_suffix=$(GetURL "${git_url_prefix:?}/releases" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//')
+  echo "https://github.com/${path_suffix:?}"
+}
+
+Unzip() {
+  local source_zip_path="${1:?}"
+  local filename_in_archive="${2:?}"
+  local target_file_path="${3:?}"
+  if [[ "${source_zip_path:?}" =~ .+\.(tar|tgz|tar\.gz)$ ]]; then
+    local file_in_archive && file_in_archive=$(tar tvf "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
+    RecExec bash -c "tar -O -xf \"${source_zip_path:?}\" \"${file_in_archive:?}\" > \"${target_file_path:?}\""
+  elif [[ "${source_zip_path:?}" =~ .+\.zip$ ]]; then
+    local file_in_archive && file_in_archive=$(unzip -l "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
+    RecExec bash -c "unzip -p -o \"${source_zip_path:?}\" \"${file_in_archive:?}\" > \"${target_file_path:?}\""
+  fi
+}
 
 InstallProgram() {
   MustFoundCommands unzip
   Prepare
   # vars
   local prog_version="${1:?}"
+  local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
   local machine_arch && machine_arch=$(uname -m)
   local prog_arch
   if [[ ${machine_arch:?} = x86_64 ]]; then
@@ -27,8 +49,7 @@ InstallProgram() {
     RecCritical "arch (${machine_arch:?}) is not supported"
     exit 1
   fi
-  local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
-  local download_url && download_url="${download_url_prefix:?}/v${prog_version:?}/${exe_filename:?}_${prog_os:?}_${prog_arch:?}.zip"
+  local download_url && download_url="$(FindTargetZipDownloadURL "${prog_version:?}" "${prog_os:?}" "${prog_arch:?}")"
   local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
   # download
   RecNotice "Download ${download_url:?}"
@@ -39,19 +60,6 @@ InstallProgram() {
   Unzip "${downloaded_path:?}" "${exe_filename:?}" "${unziped_path:?}"
   RecExec mv -f "${unziped_path:?}" "${prog_version_exe:?}"
   RecExec chmod +x "${prog_version_exe:?}"
-}
-
-Unzip() {
-  local source_zip_path="${1:?}"
-  local filename_in_archive="${2:?}"
-  local target_file_path="${3:?}"
-  if [[ "${source_zip_path:?}" =~ .+\.(tar|tgz|tar\.gz)$ ]]; then
-    local filepath_in_archive && filepath_in_archive=$(tar tvf "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
-    RecExec bash -c "tar -O -xf \"${source_zip_path:?}\" \"${filepath_in_archive:?}\" > \"${target_file_path:?}\""
-  elif [[ "${source_zip_path:?}" =~ .+\.zip$ ]]; then
-    local filepath_in_archive && filepath_in_archive=$(unzip -l "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
-    RecExec bash -c "unzip -p -o \"${source_zip_path:?}\" \"${filepath_in_archive:?}\" > \"${target_file_path:?}\""
-  fi
 }
 
 ExecProgram() {

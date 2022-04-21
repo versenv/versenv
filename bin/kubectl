@@ -6,16 +6,17 @@ set -Eeu -o pipefail
 # versenv unique
 exe_filename=kubectl
 env_key_version=KUBECTL_VERSION
-download_url_prefix="https://storage.googleapis.com/kubernetes-release/release"
+git_url_prefix=https://github.com/kubernetes/kubernetes
 
-GetProgramLatestStableVersion() { HeadURL https://github.com/kubernetes/kubernetes/releases/latest | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
-SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags https://github.com/kubernetes/kubernetes.git | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
+GetProgramLatestStableVersion() { HeadURL "${git_url_prefix:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
+SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags "${git_url_prefix:?}.git" | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
 
 InstallProgram() {
   Prepare
   # vars
   local prog_version="${1:?}"
+  local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
   local machine_arch && machine_arch=$(uname -m)
   local prog_arch
   if [[ ${machine_arch:?} = x86_64 ]]; then
@@ -26,8 +27,7 @@ InstallProgram() {
     RecCritical "arch (${machine_arch:?}) is not supported"
     exit 1
   fi
-  local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
-  local download_url && download_url="${download_url_prefix:?}/v${prog_version:?}/bin/${prog_os:?}/${prog_arch:?}/${exe_filename:?}"
+  local download_url && download_url="https://storage.googleapis.com/kubernetes-release/release/v${prog_version:?}/bin/${prog_os:?}/${prog_arch:?}/${exe_filename:?}"
   local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
   # download
   RecNotice "Download ${download_url:?}"
