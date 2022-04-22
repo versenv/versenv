@@ -93,10 +93,10 @@ RecRun() { _dlm="####R#E#C#D#E#L#I#M#I#T#E#R####" _all=$({ _out=$("$@") && _rtn=
 DownloadURL() {
   local url="${1:?}"
   local file="${2:?}"
-  if command -v curl >/dev/null; then
-    RecExec curl --tlsv1.2 --progress-bar -fLR "${url:?}" -o "${file:?}"
-  elif command -v wget >/dev/null; then
-    RecExec wget --secure-protocol=TLSv1_2 --show-progress -q "${url:?}" -O "${file:?}"
+  if command -v wget >/dev/null; then
+    RecExec wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 --show-progress -q "${url:?}" -O "${file:?}"
+  elif command -v curl >/dev/null; then
+    RecExec curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR "${url:?}" -o "${file:?}"
   else
     RecCritical "command not found: curl or wget"
     exit 127
@@ -105,10 +105,10 @@ DownloadURL() {
 
 GetURL() {
   local url="${1:?}"
-  if command -v curl >/dev/null; then
-    curl --tlsv1.2 -fLRSs "${url:?}"
-  elif command -v wget >/dev/null; then
-    wget --secure-protocol=TLSv1_2 -q -O- "${url:?}"
+  if command -v wget >/dev/null; then
+    wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -q -O- "${url:?}"
+  elif command -v curl >/dev/null; then
+    curl --tlsv1.2 --connect-timeout 2 -fLRSs "${url:?}"
   else
     RecCritical "command not found: curl or wget"
     exit 127
@@ -117,10 +117,10 @@ GetURL() {
 
 HeadURL() {
   local url="${1:?}"
-  if command -v curl >/dev/null; then
-    curl --tlsv1.2 -fIRSs "${url:?}"
-  elif command -v wget >/dev/null; then
-    LC_ALL=C wget --secure-protocol=TLSv1_2 -S --spider --max-redirect=0 "${url:?}" -O /dev/null 2>&1 | awk -F"  " "/  / {print \$2}"
+  if command -v wget >/dev/null; then
+    LC_ALL=C wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -S --spider --max-redirect=0 "${url:?}" -O /dev/null 2>&1 | awk -F"  " "/  / {print \$2}"
+  elif command -v curl >/dev/null; then
+    curl --tlsv1.2 --connect-timeout 2 -fIRSs "${url:?}"
   else
     RecCritical "command not found: curl or wget"
     exit 127

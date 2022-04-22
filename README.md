@@ -54,7 +54,7 @@ Set the environment variable `COMMAND_VERSION` (e.g. `KUBECTL_VERSION`, `TERRAFO
 $ # Automatically downloads and executes the specified version of the executable file.
 $ KUBECTL_VERSION=1.23.5 ./kubectl version --client
 2022-04-10T11:19:21+09:00 [   NOTICE] Download https://storage.googleapis.com/kubernetes-release/release/v1.23.5/bin/darwin/amd64/kubectl
-2022-04-10T11:19:21+09:00 [     INFO] $ curl --tlsv1.2 --progress-bar -fLR https://storage.googleapis.com/kubernetes-release/release/v1.23.5/bin/darwin/amd64/kubectl -o /Users/dummy/.cache/versenv/tmp/kubectl
+2022-04-10T11:19:21+09:00 [     INFO] $ curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR https://storage.googleapis.com/kubernetes-release/release/v1.23.5/bin/darwin/amd64/kubectl -o /Users/dummy/.cache/versenv/tmp/kubectl
 ########################################################################################## 100.0%
 2022-04-10T11:19:24+09:00 [   NOTICE] Install kubectl to /Users/dummy/.cache/versenv/tmp/kubectl
 2022-04-10T11:19:24+09:00 [     INFO] $ chmod +x /Users/dummy/.cache/versenv/tmp/kubectl
@@ -150,9 +150,9 @@ on darwin_amd64
     $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | VERSENV_SCRIPTS=kubectl,terraform VERSENV_PATH=./bin bash
     2022-04-18T10:32:36+09:00 [   NOTICE] Start downloading versenv scripts (kubectl terraform) to ./bin
     2022-04-18T10:32:36+09:00 [     INFO] $ mkdir -p ./bin
-    2022-04-18T10:32:37+09:00 [     INFO] $ curl --tlsv1.2 --progress-bar -fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/terraform -o ./bin/terraform
+    2022-04-18T10:32:37+09:00 [     INFO] $ curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/terraform -o ./bin/terraform
     ########################################################################################## 100.0%
-    2022-04-18T10:32:36+09:00 [     INFO] $ curl --tlsv1.2 --progress-bar -fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./bin/kubectl
+    2022-04-18T10:32:36+09:00 [     INFO] $ curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./bin/kubectl
     ########################################################################################## 100.0%
     2022-04-11T04:03:01+09:00 [   NOTICE] Complete!
     ```
