@@ -23,8 +23,8 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`kubectl`](/bin/kubectl)     | https://kubernetes.io/docs/reference/kubectl/ | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./kubectl && chmod +x ./kubectl</pre></code>       |
 | [`terraform`](/bin/terraform) | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/terraform -o ./terraform && chmod +x ./terraform</pre></code> |
 | [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/packer -o ./packer && chmod +x ./packer</pre></code>          |
-| [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
 | [`helm`](/bin/helm)           | https://github.com/helm/helm                  | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/helm -o ./helm && chmod +x ./helm</pre></code>                |
+| [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
 
 <details><summary>Other</summary>
 
