@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD013 -->
-# [`versenv`](https://github.com/newtstat/versenv)
+# [`versenv`](https://github.com/versenv/versenv)
 
 `versenv` is a set of wrapper scripts to simplify the installation and versioning of executables such as kubectl, Terraform and Packer.
 
@@ -20,20 +20,20 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 <!-- markdownlint-disable MD033 MD034 -->
 | `versenv` file                | target                                        | download `versenv` file one-liner                                                                                                                         |
 |:------------------------------|:----------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`kubectl`](/bin/kubectl)     | https://kubernetes.io/docs/reference/kubectl/ | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./kubectl && chmod +x ./kubectl</pre></code>       |
-| [`terraform`](/bin/terraform) | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/terraform -o ./terraform && chmod +x ./terraform</pre></code> |
-| [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/packer -o ./packer && chmod +x ./packer</pre></code>          |
-| [`helm`](/bin/helm)           | https://github.com/helm/helm                  | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/helm -o ./helm && chmod +x ./helm</pre></code>                |
-| [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
+| [`kubectl`](/bin/kubectl)     | https://kubernetes.io/docs/reference/kubectl/ | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/kubectl -o ./kubectl && chmod +x ./kubectl</pre></code>       |
+| [`terraform`](/bin/terraform) | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/terraform -o ./terraform && chmod +x ./terraform</pre></code> |
+| [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/packer -o ./packer && chmod +x ./packer</pre></code>          |
+| [`helm`](/bin/helm)           | https://github.com/helm/helm                  | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/helm -o ./helm && chmod +x ./helm</pre></code>                |
+| [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
 
 <details><summary>Other</summary>
 
 | `versenv` file                        | target                                    | download `versenv` file one-liner                                                                                                                                     |
 |:--------------------------------------|:------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`direnv`](/bin/direnv)               | https://github.com/direnv/direnv          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/direnv -o ./direnv && chmod +x ./direnv</pre></code>                      |
-| [`stern`](/bin/stern)                 | https://github.com/stern/stern            | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/stern -o ./stern && chmod +x ./stern</pre></code>                         |
-| [`ghq`](/bin/ghq)                     | https://github.com/x-motemen/ghq          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/ghq -o ./ghq && chmod +x ./ghq</pre></code>                               |
-| [`fzf`](/bin/fzf)                     | https://github.com/junegunn/fzf           | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/fzf -o ./fzf && chmod +x ./fzf</pre></code>                               |
+| [`direnv`](/bin/direnv)               | https://github.com/direnv/direnv          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/direnv -o ./direnv && chmod +x ./direnv</pre></code>                      |
+| [`stern`](/bin/stern)                 | https://github.com/stern/stern            | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/stern -o ./stern && chmod +x ./stern</pre></code>                         |
+| [`ghq`](/bin/ghq)                     | https://github.com/x-motemen/ghq          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/ghq -o ./ghq && chmod +x ./ghq</pre></code>                               |
+| [`fzf`](/bin/fzf)                     | https://github.com/junegunn/fzf           | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/fzf -o ./fzf && chmod +x ./fzf</pre></code>                               |
 
 </details>
 <!-- markdownlint-enable -->
@@ -44,7 +44,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 Download any wrapper script provided by `versenv`:
 
 ```console
-$ curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./kubectl && chmod +x ./kubectl
+$ curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/kubectl -o ./kubectl && chmod +x ./kubectl
 ########################################################################################## 100.0%
 ```
 
@@ -75,7 +75,7 @@ Specify the versions of each command in the `.envrc` file and git commit it in t
 ```console
 $ # Create a bin directory in the root of the DevOps repository and install the scripts there.
 $ cd "$(git rev-parse --show-toplevel)"
-$ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | VERSENV_SCRIPTS=kubectl,terraform VERSENV_PATH=./bin bash
+$ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/install.sh | VERSENV_SCRIPTS=kubectl,terraform VERSENV_PATH=./bin bash
 
 $ # Specify the versions of each command in .envrc
 $ cat <<'EOF' > .envrc
@@ -138,7 +138,7 @@ on darwin_amd64
 - You can run `install.sh` to install a set of versenv scripts to `VERSENV_PATH` directory at once:
 
   ```bash
-  curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | VERSENV_PATH=./bin bash
+  curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/install.sh | VERSENV_PATH=./bin bash
   ```
 
 - If you set `VERSENV_SCRIPTS`, you can install only the scripts you choose.
@@ -147,12 +147,12 @@ on darwin_amd64
 
     ```console
     $ mkdir -p ./bin
-    $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/install.sh | VERSENV_SCRIPTS=kubectl,terraform VERSENV_PATH=./bin bash
+    $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/install.sh | VERSENV_SCRIPTS=kubectl,terraform VERSENV_PATH=./bin bash
     2022-04-18T10:32:36+09:00 [   NOTICE] Start downloading versenv scripts (kubectl terraform) to ./bin
     2022-04-18T10:32:36+09:00 [     INFO] $ mkdir -p ./bin
-    2022-04-18T10:32:37+09:00 [     INFO] $ curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/terraform -o ./bin/terraform
+    2022-04-18T10:32:37+09:00 [     INFO] $ curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/terraform -o ./bin/terraform
     ########################################################################################## 100.0%
-    2022-04-18T10:32:36+09:00 [     INFO] $ curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/kubectl -o ./bin/kubectl
+    2022-04-18T10:32:36+09:00 [     INFO] $ curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/kubectl -o ./bin/kubectl
     ########################################################################################## 100.0%
     2022-04-11T04:03:01+09:00 [   NOTICE] Complete!
     ```

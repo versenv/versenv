@@ -2,7 +2,7 @@
 set -Eeu -o pipefail
 
 # HOW TO USE
-# $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/newtstat/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
+# $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
 
 # MIT License Copyright (c) 2021 newtstat https://github.com/rec-logger/rec.sh
 # Common
@@ -41,7 +41,7 @@ InstallVersenvScript() {
   # vars
   local download_path="${install_dir:?}/${versenv_script_name:?}"
   # main
-  DownloadURL "https://raw.githubusercontent.com/newtstat/versenv/HEAD/bin/${versenv_script_name:?}" "${download_path:?}"
+  DownloadURL "https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/${versenv_script_name:?}" "${download_path:?}"
   chmod +x "${download_path:?}"
 }
 
