@@ -8,7 +8,7 @@ exe_filename=packer
 env_key_version=PACKER_VERSION
 
 GetProgramLatestStableVersion() { SubcommandGetProgramStableVersions | tail -n 1; }
-SubcommandGetProgramVersions() { GetURL "https://releases.hashicorp.com/${exe_filename:?}/" | grep -Eo "/${exe_filename:?}/[^/]+" | sed "s@/${exe_filename:?}/@@" | sort -uV; }
+SubcommandGetProgramVersions() { GetURL "https://releases.hashicorp.com/${exe_filename:?}/" | grep -Eo "/${exe_filename:?}/[^/\"]+" | sed "s@/${exe_filename:?}/@@" | sort -uV; }
 SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
 
 Unzip() {
