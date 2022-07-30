@@ -50,7 +50,7 @@ Main() {
   # shellcheck disable=SC2207
   local -a scripts=($(echo "${VERSENV_SCRIPTS:-}" | sed "s/ *//g; s/,/ /g"))
   if [[ ${#scripts[@]} -eq 0 ]]; then
-    scripts=(kubectl terraform packer helm eksctl direnv stern ghq fzf)
+    scripts=(kubectl terraform packer helm eksctl direnv stern ghq fzf golangci-lint)
   fi
   # shellcheck disable=SC2001
   local install_dir && install_dir=$(echo "${VERSENV_PATH:-"${PWD:-.}"}" | sed "s|//*|/|g; s|/$||")
