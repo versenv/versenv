@@ -177,6 +177,25 @@ Prepare() {
   mkdir -p "${prog_version_tmp_dir:?}" "${prog_version_bin_dir:?}"
 }
 
+Usage() {
+  cat <<EOF
+Usage: $(basename "$0") versenv [-h] subcommand
+
+versenv is a set of wrapper scripts to simplify the installation and versioning of executables.
+
+Available subcommands:
+
+self-update     Update versenv script itself
+versions        Print available versions
+stables         Print available stable versions
+
+Available options:
+
+-h, --help      Print this help and exit
+EOF
+  return 0
+}
+
 Main() {
   case "${1-}" in
   "versenv")
@@ -189,6 +208,9 @@ Main() {
       ;;
     "stables")
       SubcommandGetProgramStableVersions
+      ;;
+    "-h"|"--help"|"help")
+      Usage
       ;;
     *)
       Usage
