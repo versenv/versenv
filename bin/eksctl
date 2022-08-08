@@ -16,7 +16,14 @@ FindTargetZipDownloadURL() {
   local prog_version="${1:?}"
   local prog_os="${2:?}"
   local prog_arch="${3:?}"
-  local path_suffix && path_suffix=$(GetURL "${git_url_prefix:?}/releases" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//')
+  local path_suffix && path_suffix=$(
+    if ! GetURL "${git_url_prefix:?}/releases" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'; then
+      i=2
+      until { GetURL "${git_url_prefix:?}/releases?page=${i:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'; }; do
+        i=$((i+1))
+      done
+    fi
+  )
   echo "https://github.com/${path_suffix:?}"
 }
 
