@@ -146,7 +146,6 @@ on darwin_amd64
   - e.g.
 
     ```console
-    $ mkdir -p ./bin
     $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/install.sh | VERSENV_SCRIPTS=kubectl,terraform VERSENV_PATH=./bin bash
     2022-04-18T10:32:36+09:00 [   NOTICE] Start downloading versenv scripts (kubectl terraform) to ./bin
     2022-04-18T10:32:36+09:00 [     INFO] $ mkdir -p ./bin
