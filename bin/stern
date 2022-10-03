@@ -17,9 +17,9 @@ FindTargetZipDownloadURL() {
   local prog_os="${2:?}"
   local prog_arch="${3:?}"
   local path_suffix && path_suffix=$(
-    if ! GetURL "${git_url_prefix:?}/releases" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'; then
+    if ! GetURLs "${git_url_prefix:?}/releases" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'; then
       i=2
-      until { GetURL "${git_url_prefix:?}/releases?page=${i:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'; }; do
+      until { GetURLs "${git_url_prefix:?}/releases?page=${i:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'; }; do
         i=$((i+1))
       done
     fi
@@ -117,16 +117,18 @@ DownloadURL() {
   fi
 }
 
-GetURL() {
-  local url="${1:?}"
-  if command -v wget >/dev/null; then
-    wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -q -O- "${url:?}"
-  elif command -v curl >/dev/null; then
-    curl --tlsv1.2 --connect-timeout 2 -fLRSs "${url:?}"
-  else
-    RecCritical "command not found: curl or wget"
-    exit 127
-  fi
+GetURLs() {
+  for arg in "$@"; do
+    local url="${arg:?}"
+    if command -v wget >/dev/null; then
+      wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -q -O- "${url:?}"
+    elif command -v curl >/dev/null; then
+      curl --tlsv1.2 --connect-timeout 2 -fLRSs "${url:?}"
+    else
+      RecCritical "command not found: curl or wget"
+      exit 127
+    fi
+  done
 }
 
 HeadURL() {
