@@ -25,6 +25,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`packer`](/bin/packer)       | https://www.packer.io/                        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/packer -o ./packer && chmod +x ./packer</pre></code>          |
 | [`helm`](/bin/helm)           | https://github.com/helm/helm                  | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/helm -o ./helm && chmod +x ./helm</pre></code>                |
 | [`eksctl`](/bin/eksctl)       | https://github.com/weaveworks/eksctl          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/eksctl -o ./eksctl && chmod +x ./eksctl</pre></code>          |
+| [`protoc`](/bin/protoc)       | https://github.com/protocolbuffers/protobuf   | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/protoc -o ./protoc && chmod +x ./protoc</pre></code>          |
 | [`buf`](/bin/buf)             | https://github.com/bufbuild/buf               | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/buf -o ./buf && chmod +x ./buf</pre></code>                   |
 
 <details><summary>Other</summary>
