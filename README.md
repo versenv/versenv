@@ -37,6 +37,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`stern`](/bin/stern)                 | https://github.com/stern/stern            | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/stern -o ./stern && chmod +x ./stern</pre></code>                         |
 | [`ghq`](/bin/ghq)                     | https://github.com/x-motemen/ghq          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/ghq -o ./ghq && chmod +x ./ghq</pre></code>                               |
 | [`fzf`](/bin/fzf)                     | https://github.com/junegunn/fzf           | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/fzf -o ./fzf && chmod +x ./fzf</pre></code>                               |
+| [`migrate`](/bin/migrate)             | https://github.com/golang-migrate/migrate | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/migrate -o ./migrate && chmod +x ./migrate</pre></code>                   |
 
 </details>
 <!-- markdownlint-enable -->
