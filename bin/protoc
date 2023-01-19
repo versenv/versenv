@@ -24,7 +24,7 @@ FindTargetZipDownloadURL() {
     RecCritical "${exe_filename:?} ${prog_version:?} ${prog_os:?} ${prog_arch:?} not found"
     exit 1
   fi
-  echo "https://github.com/${path_suffix:?}"
+  echo "https://github.com${path_suffix:?}"
 }
 
 InstallProgram() {
