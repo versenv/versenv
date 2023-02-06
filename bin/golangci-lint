@@ -5,7 +5,7 @@ set -Eeu -o pipefail
 
 # versenv unique
 exe_filename=golangci-lint
-env_key_version=GOLANGCI_VERSION
+env_key_version=GOLANGCI_LINT_VERSION
 git_url_prefix=https://github.com/golangci/golangci-lint
 
 GetProgramLatestStableVersion() { HeadURL "${git_url_prefix:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
