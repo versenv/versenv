@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# LISENCE: https://github.com/versenv/versenv/blob/HEAD/LICENSE
 set -Eeu -o pipefail
 
 # HOW TO USE
