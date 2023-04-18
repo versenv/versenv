@@ -5,7 +5,7 @@ set -Eeu -o pipefail
 # HOW TO USE
 # $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
 
-# Apache License 2.0 Copyright (c) 2022 kunitsuinc https://github.com/kunitsuinc/rec.sh
+# LISENCE: https://github.com/kunitsuinc/rec.sh/blob/HEAD/LICENSE
 # Common
 _recRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
 _recCmd() { for a in "$@"; do if echo "${a:-}" | grep -Eq "[[:blank:]]"; then printf "'%s' " "${a:-}"; else printf "%s " "${a:-}"; fi; done | sed "s/ $//"; }
