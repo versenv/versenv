@@ -29,7 +29,6 @@ InstallProgram() {
   RecExec ./configure --with-download-deps --prefix="${prog_version_dir:?}"
   RecExec make
   RecExec make install
-  RecExec rm -rf "${prog_version_tmp_dir:?}"
 }
 
 ExecProgram() {
