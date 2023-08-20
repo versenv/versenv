@@ -74,7 +74,7 @@ ExecProgram() {
   exec "${prog_version_exe:?}" "$@" <&0
 }
 
-# LISENCE: https://github.com/kunitsuinc/rec.sh/blob/HEAD/LICENSE
+# LISENCE: https://github.com/kunitsucom/rec.sh/blob/HEAD/LICENSE
 # Common
 if [ -t 2 ]; then REC_COLOR=true; else REC_COLOR=''; fi
 _recRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
