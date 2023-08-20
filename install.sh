@@ -5,7 +5,7 @@ set -Eeu -o pipefail
 # HOW TO USE
 # $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
 
-# LISENCE: https://github.com/kunitsuinc/rec.sh/blob/HEAD/LICENSE
+# LISENCE: https://github.com/kunitsucom/rec.sh/blob/HEAD/LICENSE
 # Common
 if [ -t 2 ]; then REC_COLOR=true; else REC_COLOR=''; fi
 _recRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
