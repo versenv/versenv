@@ -46,7 +46,7 @@ InstallProgram() {
   local prog_arch
   if [[ ${machine_arch:?} = x86_64 ]]; then
     prog_arch=x86_64
-  elif [[ ${machine_arch:?} = arm64 ]]; then
+  elif [[ ${machine_arch:?} = arm64 ]] || [[ ${machine_arch:?} = aarch64 ]]; then
     prog_arch=aarch_64
   else
     LogshError "arch (${machine_arch:?}) is not supported"
