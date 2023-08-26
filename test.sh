@@ -1,9 +1,5 @@
-#!/usr/bin/env bash
-# LISENCE: https://github.com/versenv/versenv/blob/HEAD/LICENSE
-set -Eeu -o pipefail
-
-# HOW TO USE
-# $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
+#!/bin/sh
+set -e -u
 
 # LISENCE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
 # Common
@@ -23,47 +19,29 @@ LogshAlert() { test "    ${LOGSH_LEVEL:-0}" -gt 700 || echo "$*" | awk "{print  
 LogshEmergency() { test "${LOGSH_LEVEL:-0}" -gt 800 || echo "$*" | awk "{print \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;1;41m}EMERGENCY${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
 LogshExec() { LogshInfo "$ $(_logshCmd "$@")" && "$@"; }
 LogshRun() { _dlm="####R#E#C#D#E#L#I#M#I#T#E#R####" && _all=$({ _out=$("$@") && _rtn=$? || _rtn=$? && printf "\n%s" "${_dlm:?}${_out:-}" && return "${_rtn:-0}"; } 2>&1) && _rtn=$? || _rtn=$? && _dlmno=$(echo "${_all:-}" | sed -n "/${_dlm:?}/=") && _cmd=$(_logshCmd "$@") && _stdout=$(echo "${_all:-}" | tail -n +"${_dlmno:-1}" | sed "s/^${_dlm:?}//") && _stderr=$(echo "${_all:-}" | head -n "${_dlmno:-1}" | grep -v "^${_dlm:?}") && LogshInfo "$ ${_cmd:-}" && LogshInfo "${_stdout:-}" && { [ -z "${_stderr:-}" ] || LogshWarning "${_stderr:?}"; } && return "${_rtn:-0}"; }
+# export functions for bash
+# shellcheck disable=SC3045
+echo "${SHELL-}" | grep -q "/?bash" && export -f _logshRFC3339 _logshCmd LogshDefault LogshDebug LogshInfo LogshWarning LogshError LogshCritical LogshAlert LogshEmergency LogshExec LogshRun || true
 
-DownloadURL() {
-  local url="${1:?}"
-  local file="${2:?}"
-  if command -v curl >/dev/null; then
-    LogshExec curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR "${url:?}" -o "${file:?}"
-  elif command -v wget >/dev/null; then
-    LogshExec wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -q "${url:?}" -O "${file:?}"
-  else
-    LogshError "command not found: curl or wget"
-    exit 127
-  fi
-}
+cd "$(dirname "$0")"
 
-InstallVersenvScript() {
-  # args
-  local versenv_script_name=${1:?"InstallVersenvScript: versenv_script_name is empty"}
-  local install_dir=${2:?"InstallVersenvScript: install_dir is empty"}
-  # vars
-  local download_path="${install_dir:?}/${versenv_script_name:?}"
-  # main
-  DownloadURL "https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/${versenv_script_name:?}" "${download_path:?}"
-  chmod +x "${download_path:?}"
-}
+err=0
 
-Main() {
-  # vars
-  # shellcheck disable=SC2207
-  local -a scripts=($(echo "${VERSENV_SCRIPTS:-}" | sed "s/ *//g; s/,/ /g"))
-  if [[ ${#scripts[@]} -eq 0 ]]; then
-    scripts=(kubectl terraform packer helm eksctl protoc buf aws direnv golangci-lint stern ghq fzf)
-  fi
-  # shellcheck disable=SC2001
-  local install_dir && install_dir=$(echo "${VERSENV_PATH:-"${PWD:-.}"}" | sed "s|//*|/|g; s|/$||")
-  # main
-  LogshNotice "Start downloading versenv scripts (${scripts[*]}) to ${install_dir:?}"
-  LogshRun mkdir -p "${install_dir:?}"
-  for versenv_script_name in "${scripts[@]}"; do
-    InstallVersenvScript "${versenv_script_name:?}" "${install_dir:?}"
-  done
-  LogshNotice "Complete!"
-}
+# begin log
+LogshInfo "RUN: $0"
+# end log
+trap 'if [ ${err:-0} -gt 0 ]; then
+  LogshError "FAIL: $0"
+  exit ${err:-1}
+else
+  LogshInfo "PASS: $0"
+  exit 0
+fi
+' EXIT
 
-Main "$@"
+# local
+./testcases.sh || err=$((err+$?))
+# debian:12
+docker run --rm -v "$(pwd -P)":"$(pwd -P)" -w "$(pwd -P)" -e LOGSH_COLOR=true debian:12 sh -c 'apt-get update -qqy && apt-get install -qqy curl zip && ./testcases.sh' || err=$((err+$?))
+# ubuntu:22.04
+docker run --rm -v "$(pwd -P)":"$(pwd -P)" -w "$(pwd -P)" -e LOGSH_COLOR=true ubuntu:22.04 sh -c 'apt-get update -qqy && apt-get install -qqy curl zip && ./testcases.sh' || err=$((err+$?))
