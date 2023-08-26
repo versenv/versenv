@@ -1,6 +1,8 @@
 <!-- markdownlint-disable MD013 -->
 # [`versenv`](https://github.com/versenv/versenv): Environment variable oriented version control tool
 
+[![license](https://img.shields.io/github/license/versenv/versenv)](LICENSE)
+
 `versenv` is a set of wrapper scripts to simplify the installation and versioning of executables such as kubectl, Terraform and Packer.
 
 Are you suffering from any of these problems?
