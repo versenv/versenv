@@ -1,0 +1,61 @@
+name: sh-test
+#     ~~~~~~~
+# https://github.com/versenv/versenv/workflows/sh-test/badge.svg
+#                                              ~~~~~~~
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/dependabot.yml'
+      - '.github/pull_request_template.md'
+      - '.github/release.yml'
+      - 'README.md'
+  pull_request:
+    paths-ignore:
+      - '.github/dependabot.yml'
+      - '.github/pull_request_template.md'
+      - '.github/release.yml'
+      - 'README.md'
+  workflow_dispatch:
+    inputs: {}
+
+# NOTE: 連続で commit ＆ push した時に最新の commit 以外のワークフローをキャンセルする
+concurrency:
+  group: ${{ github.workflow }}-${{ github.base_ref }}-${{ github.head_ref }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  WORKDIR: .
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  sh-test: # NOTE: for Branch protection rule `Status checks that are required.`
+    runs-on: ubuntu-latest # ref. https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    steps:
+      - uses: actions/checkout@v3
+      - name: DEBUG
+        run: |
+          cat <<'DEBUG_DOC'
+          == DEBUG =======================================================
+          github.ref: ${{ github.ref }}
+          github.event_name: ${{ github.event_name }}
+          -- toJSON(github.event.inputs) ---------------------------------
+          ${{ toJSON(github.event.inputs) }}
+          -- toJSON(github) ----------------------------------------------
+          ${{ toJSON(github) }}
+          ================================================================
+          DEBUG_DOC
+        shell: bash
+      - name: Run test.sh
+        working-directory: ${{ env.WORKDIR }}
+        run: |
+          ${{ env.WORKDIR }}/test.sh

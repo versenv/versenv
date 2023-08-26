@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD013 -->
-# [`versenv`](https://github.com/versenv/versenv): Environment variable oriented version control tool
+# [`versenv`](https://github.com/versenv/versenv) - Environment variable oriented version control tool
 
 [![license](https://img.shields.io/github/license/versenv/versenv)](LICENSE)
 
