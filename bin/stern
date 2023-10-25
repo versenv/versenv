@@ -255,7 +255,7 @@ Main() {
     esac
     ;;
   *)
-    ExecProgram "$@"
+    ExecProgram "${@@Q}"
     return $?
     ;;
   esac
