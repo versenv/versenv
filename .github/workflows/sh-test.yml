@@ -4,6 +4,9 @@ name: sh-test
 #                                              ~~~~~~~
 
 on:
+  schedule:
+    # Monday 11:00 JST
+    - cron:  '0 2 * * 1'
   push:
     branches:
       - main
