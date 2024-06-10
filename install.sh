@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# LISENCE: https://github.com/versenv/versenv/blob/HEAD/LICENSE
+# LICENSE: https://github.com/versenv/versenv/blob/HEAD/LICENSE
 set -Eeu -o pipefail
 
 # HOW TO USE
 # $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
 
-# LISENCE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
+# LICENSE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
 # Common
 if [ "${LOGSH_COLOR:-}" ] || [ -t 2 ] ; then LOGSH_COLOR=true; else LOGSH_COLOR=''; fi
 _logshRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }

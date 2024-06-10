@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e -u
 
-# LISENCE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
+# LICENSE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
 # Common
 if [ "${LOGSH_COLOR:-}" ] || [ -t 2 ] ; then LOGSH_COLOR=true; else LOGSH_COLOR=''; fi
 _logshRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
