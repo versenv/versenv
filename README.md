@@ -43,6 +43,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`fzf`](/bin/fzf)                     | https://github.com/junegunn/fzf           | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/fzf -o ./fzf && chmod +x ./fzf</pre></code>                               |
 | [`migrate`](/bin/migrate)             | https://github.com/golang-migrate/migrate | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/migrate -o ./migrate && chmod +x ./migrate</pre></code>                   |
 | [`hammer`](/bin/hammer)               | https://github.com/daichirata/hammer      | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/hammer -o ./hammer && chmod +x ./hammer</pre></code>                      |
+| [`typos`](/bin/typos)                 | https://github.com/crate-ci/typos         | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/typos -o ./typos && chmod +x ./typos</pre></code>                         |
 
 </details>
 <!-- markdownlint-enable -->
