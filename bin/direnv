@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2155
-# LISENCE: https://github.com/versenv/versenv/blob/HEAD/LICENSE
+# LICENSE: https://github.com/versenv/versenv/blob/HEAD/LICENSE
 set -Eeu -o pipefail
 
 # versenv unique
@@ -48,7 +48,7 @@ ExecProgram() {
   exec "${prog_version_exe:?}" "$@" <&0
 }
 
-# LISENCE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
+# LICENSE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
 # Common
 if [ "${LOGSH_COLOR:-}" ] || [ -t 2 ] ; then LOGSH_COLOR=true; else LOGSH_COLOR=''; fi
 _logshRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
