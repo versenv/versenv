@@ -1,0 +1,43 @@
+name: typo-checker
+#     ^^^^^^^^^^^^
+# https://github.com/organization/repository/workflows/typo-checker/badge.svg
+#                                                      ^^^^^^^^^^^^
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs: {}
+
+# NOTE: If commit & push continuously, cancel the workflow other than the latest commit.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.base_ref }}-${{ github.head_ref }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  typo-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check spelling
+        uses: crate-ci/typos@master
+      - name: DEBUG
+        if: always() && ${{ inputs.debug == 'true' }}
+        shell: bash
+        run: |
+          cat <<'DEBUG_DOC'
+          == DEBUG =======================================================
+          -- github -----------------------------------------------------
+          github.event_name: ${{ github.event_name }}
+          github.ref: ${{ github.ref }}
+          -- toJSON(github) ----------------------------------------------
+          ${{ toJSON(github) }}
+          ================================================================
+          DEBUG_DOC
