@@ -1,0 +1,78 @@
+name: label-checker
+
+# Dependabot
+# gh label create --force "dependencies" --description "Pull requests that update a dependency file" --color 0366D6
+# gh label create --force "go" --description "Pull requests that update Go code" --color 16E2E2
+# gh label create --force "github_actions" --description "Pull requests that update GitHub Actions code" --color 000000
+# gh label create --force "docker" --description "Pull requests that update Docker code" --color 21CEFF
+
+# Commit prefix
+# gh label create --force "BREAKING CHANGE" --description "BREAKING CHANGES" --color FF0303
+# gh label create --force "build" --description "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)" --color 5319E7
+# gh label create --force "ci" --description "Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)" --color 53C4EE
+# gh label create --force "docs" --description "Documentation only changes" --color 1B3E44
+# gh label create --force "feat" --description "A new feature" --color 0EAA80
+# gh label create --force "fix" --description "A bug fix" --color 1D76DB
+# gh label create --force "perf" --description "A code change that improves performance" --color A2EEEF
+# gh label create --force "refactor" --description "A code change that neither fixes a bug nor adds a feature" --color C5DEF5
+# gh label create --force "test" --description "Adding missing tests or correcting existing tests" --color 1D76DB
+# gh label create --force "chore" --description "Changes to the build process or auxiliary tools and libraries such as documentation generation" --color 20313F
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - labeled
+      - unlabeled
+      - ready_for_review
+      - reopened
+      - synchronize
+
+env:
+  LABELS: "BREAKING CHANGE,build,ci,docs,feat,fix,perf,refactor,test,chore"
+
+jobs:
+  check:
+    name: Check labels
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write # required to add labels
+      statuses: read
+      checks: read
+      repository-projects: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }} # needed for gh pr view
+      - name: Check labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          # Check labels
+          set -Eeuo pipefail -x
+
+          # If any of the labels are present, exit with success
+          if [[ -n "$(gh pr view --json labels --jq ".labels[].name" | grep -E "^($(tr , "|" <<<"${LABELS:?}"))$")" ]]; then
+            exit 0
+          fi
+
+          # Add labels based on PR title
+          GH_PR_TITLE=$(gh pr view --json title --jq .title)
+          gh label list --json name --jq ".[].name" | while read -r LINE; do
+            awk -F: "/^${LINE-}(\([^\)]+\))?:/ {print \$1}" <<<"${GH_PR_TITLE:?}" | grep -Eo "^${LINE:?}" || true # NOTE: Ignore the return value of grep because we just want to output the string
+          done | xargs -t -I{} gh pr edit --add-label {}
+
+          # If any of the labels are present, exit with success
+          while read -r LINE; do
+            if grep -E "^($(tr , "|" <<<"${LABELS:?}"))$" <<<"${LINE-}"; then
+              exit 0
+            fi
+          done <<<"$(gh pr view --json labels --jq ".labels[].name")"
+
+          # If none of the labels are present, exit with error
+          exit 1
