@@ -31,6 +31,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`protoc`](/bin/protoc)       | https://github.com/protocolbuffers/protobuf   | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/protoc -o ./protoc && chmod +x ./protoc</pre></code>          |
 | [`buf`](/bin/buf)             | https://github.com/bufbuild/buf               | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/buf -o ./buf && chmod +x ./buf</pre></code>                   |
 | [`awscliv2`](/bin/aws)        | https://github.com/aws/aws-cli/tree/v2        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/aws -o ./aws && chmod +x ./aws</pre></code>                   |
+| [`sops`](/bin/sops)           | https://github.com/getsops/sops               | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/sops -o ./sops && chmod +x ./sops</pre></code>                |
 
 <details><summary>Other</summary>
 
