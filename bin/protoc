@@ -17,7 +17,7 @@ FindTargetZipDownloadURL() {
   local prog_os="${2:?}"
   local prog_arch="${3:?}"
   local path_suffixes && path_suffixes=$(
-    GetURLs "${git_url_prefix:?}/releases/expanded_assets/"{,v}"${prog_version:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/${exe_filename:?}-${prog_version:?}-${prog_os:?}-[^\"]*\.zip" | sed 's/href="//'
+    GetURLs "${git_url_prefix:?}/releases/expanded_assets/"{,v}"${prog_version:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/${exe_filename:?}-${prog_version:?}-${prog_os:?}-[^\"]*\.zip\"" | sed 's/href="//; s/"$//'
   )
   local path_suffix && path_suffix=$(echo "${path_suffixes:-}" | grep "${prog_arch:?}" || echo "${path_suffixes:-}" | grep x86_64)
   if [[ -z "${path_suffix:-}" ]]; then
