@@ -1,0 +1,266 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2155
+# LICENSE: https://github.com/versenv/versenv/blob/HEAD/LICENSE
+set -Eeu -o pipefail
+
+# versenv unique
+exe_filename=ddlctl
+env_key_version=DDLCTL_VERSION
+git_url_prefix=https://github.com/kunitsucom/ddlctl
+
+GetProgramLatestStableVersion() { HeadURL "${git_url_prefix:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
+SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags "${git_url_prefix:?}.git" | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
+SubcommandGetProgramStableVersions() { SubcommandGetProgramVersions | grep -E "[0-9]+\.[0-9]+\.[0-9]+$"; }
+
+FindTargetZipDownloadURL() {
+  local prog_version="${1:?}"
+  local prog_os="${2:?}"
+  local prog_arch="${3:?}"
+  local path_suffix && path_suffix=$(
+    GetURLs "${git_url_prefix:?}/releases/expanded_assets/"{,v}"${prog_version:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'
+  )
+  echo "https://github.com${path_suffix:?}"
+}
+
+Unzip() {
+  local source_zip_path="${1:?}"
+  local filename_in_archive="${2:?}"
+  local target_file_path="${3:?}"
+  if [[ "${source_zip_path:?}" =~ .+\.(tar|tgz|tar\.gz)$ ]]; then
+    local file_in_archive && file_in_archive=$(tar tvf "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
+    LogshExec bash -c "tar -O -xf \"${source_zip_path:?}\" \"${file_in_archive:?}\" > \"${target_file_path:?}\""
+  elif [[ "${source_zip_path:?}" =~ .+\.zip$ ]]; then
+    local file_in_archive && file_in_archive=$(unzip -l "${source_zip_path:?}" | awk -F" " "/[\/ ]${filename_in_archive:?}$/ {print \$NF}")
+    LogshExec bash -c "unzip -p -o \"${source_zip_path:?}\" \"${file_in_archive:?}\" > \"${target_file_path:?}\""
+  fi
+}
+
+InstallProgram() {
+  MustFoundCommands tar
+  Prepare
+  # vars
+  local prog_version="${1:?}"
+  local machine_os && machine_os=$(uname -s)
+  local prog_os
+  if [[ ${machine_os:?} = Darwin ]]; then
+    prog_os=darwin
+  elif [[ ${machine_os:?} = Linux ]]; then
+    prog_os=linux
+  else
+    LogshError "os (${machine_os:?}) is not supported"
+    exit 1
+  fi
+  local machine_arch && machine_arch=$(uname -m)
+  local prog_arch
+  if [[ ${machine_arch:?} = x86_64 ]]; then
+    prog_arch=amd64
+  elif [[ ${machine_arch:?} = arm64 ]] || [[ ${machine_arch:?} = aarch64 ]]; then
+    prog_arch=arm64
+  else
+    LogshError "arch (${machine_arch:?}) is not supported"
+    exit 1
+  fi
+  local download_url && download_url="$(FindTargetZipDownloadURL "${prog_version:?}" "${prog_os:?}" "${prog_arch:?}")"
+  local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
+  # download
+  LogshNotice "Download ${download_url:?}"
+  DownloadURL "${download_url:?}" "${downloaded_path:?}"
+  # install
+  LogshNotice "Install ${downloaded_path:?} to ${prog_version_exe:?}"
+  local unzipped_path="${prog_version_tmp_dir:?}/${exe_filename:?}"
+  Unzip "${downloaded_path:?}" "${exe_filename:?}" "${unzipped_path:?}"
+  LogshExec mv -f "${unzipped_path:?}" "${prog_version_exe:?}"
+  LogshExec chmod +x "${prog_version_exe:?}"
+}
+
+ExecProgram() {
+  Prepare
+  # install
+  if [[ ! -x "${prog_version_exe:?}" ]]; then
+    InstallProgram "${prog_version:?}"
+  fi
+  # exec
+  exec "${prog_version_exe:?}" "$@" <&0
+}
+
+# LICENSE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
+# Common
+if [ "${LOGSH_COLOR:-}" ] || [ -t 2 ] ; then LOGSH_COLOR=true; else LOGSH_COLOR=''; fi
+_logshRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
+_logshCmd() { for a in "$@"; do if echo "${a:-}" | grep -Eq "[[:blank:]]"; then printf "'%s' " "${a:-}"; else printf "%s " "${a:-}"; fi; done | sed "s/ $//"; }
+# Color
+LogshDefault() { test "  ${LOGSH_LEVEL:-0}" -gt 000 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;35m}  DEFAULT${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshDebug() { test "    ${LOGSH_LEVEL:-0}" -gt 100 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;34m}    DEBUG${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshInfo() { test "     ${LOGSH_LEVEL:-0}" -gt 200 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;32m}     INFO${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshNotice() { test "   ${LOGSH_LEVEL:-0}" -gt 300 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;36m}   NOTICE${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshWarn() { test "     ${LOGSH_LEVEL:-0}" -gt 400 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;33m}     WARN${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshWarning() { test "  ${LOGSH_LEVEL:-0}" -gt 400 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;33m}  WARNING${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshError() { test "    ${LOGSH_LEVEL:-0}" -gt 500 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;31m}    ERROR${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshCritical() { test " ${LOGSH_LEVEL:-0}" -gt 600 || echo "$*" | awk "{print \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;1;31m} CRITICAL${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshAlert() { test "    ${LOGSH_LEVEL:-0}" -gt 700 || echo "$*" | awk "{print   \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;41m}    ALERT${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshEmergency() { test "${LOGSH_LEVEL:-0}" -gt 800 || echo "$*" | awk "{print \"$(_logshRFC3339) [${LOGSH_COLOR:+\\033[0;1;41m}EMERGENCY${LOGSH_COLOR:+\\033[0m}] \"\$0\"\"}" 1>&2; }
+LogshExec() { LogshInfo "$ $(_logshCmd "$@")" && "$@"; }
+LogshRun() { _dlm="####R#E#C#D#E#L#I#M#I#T#E#R####" && _all=$({ _out=$("$@") && _rtn=$? || _rtn=$? && printf "\n%s" "${_dlm:?}${_out:-}" && return "${_rtn:-0}"; } 2>&1) && _rtn=$? || _rtn=$? && _dlmno=$(echo "${_all:-}" | sed -n "/${_dlm:?}/=") && _cmd=$(_logshCmd "$@") && _stdout=$(echo "${_all:-}" | tail -n +"${_dlmno:-1}" | sed "s/^${_dlm:?}//") && _stderr=$(echo "${_all:-}" | head -n "${_dlmno:-1}" | grep -v "^${_dlm:?}") && LogshInfo "$ ${_cmd:-}" && LogshInfo "${_stdout:-}" && { [ -z "${_stderr:-}" ] || LogshWarning "${_stderr:?}"; } && return "${_rtn:-0}"; }
+
+# versenv common
+DownloadURL() {
+  local url="${1:?}"
+  local file="${2:?}"
+  if command -v curl >/dev/null; then
+    LogshExec curl --tlsv1.2 --connect-timeout 2 --progress-bar -fLR "${url:?}" -o "${file:?}"
+  elif command -v wget >/dev/null; then
+    LogshExec wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -q "${url:?}" -O "${file:?}"
+  else
+    LogshError "command not found: curl or wget"
+    exit 127
+  fi
+}
+
+GetURLs() {
+  for arg in "$@"; do
+    local url="${arg:?}"
+    if command -v wget >/dev/null; then
+      wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -q -O- "${url:?}"
+    elif command -v curl >/dev/null; then
+      curl --tlsv1.2 --connect-timeout 2 -fLRSs "${url:?}"
+    else
+      LogshError "command not found: curl or wget"
+      exit 127
+    fi
+  done
+}
+
+HeadURL() {
+  local url="${1:?}"
+  if command -v wget >/dev/null; then
+    LC_ALL=C wget --secure-protocol=TLSv1_2 --dns-timeout=2 --connect-timeout=2 -S --spider --max-redirect=0 "${url:?}" -O /dev/null 2>&1 | awk -F"  " "/  / {print \$2}"
+  elif command -v curl >/dev/null; then
+    curl --tlsv1.2 --connect-timeout 2 -fIRSs "${url:?}"
+  else
+    LogshError "command not found: curl or wget"
+    exit 127
+  fi
+}
+
+SubcommandSelfUpdate() {
+  local self_update_url="https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/${exe_filename:?}"
+  local script_file_path="${0:?}"
+  local tmp_dir=/tmp/versenv/bin
+  local tmp_file=${tmp_dir:?}/${exe_filename:?}
+  local backup_file="${tmp_file:?}.backup"
+  LogshNotice "Download ${self_update_url:?}"
+  mkdir -p "${tmp_dir:?}"
+  DownloadURL "${self_update_url:?}" "${tmp_file:?}"
+  LogshNotice "Take backup ${script_file_path:?} to ${backup_file:?}"
+  LogshExec mv -f "${script_file_path:?}" "${backup_file:?}"
+  LogshNotice "Show the changes between old and new"
+  LogshExec diff -u "${backup_file:?}" "${tmp_file:?}" || true
+  LogshNotice "Update ${script_file_path:?} to ${self_update_url:?}"
+  LogshExec chmod +x "${tmp_file:?}"
+  LogshExec mv -f "${tmp_file:?}" "${script_file_path:?}"
+}
+
+MustFoundCommands() {
+  # shellcheck disable=SC2207
+  local not_found_commands=($(
+    for cmd in "$@"; do
+      if ! command -v "${cmd-}" 1>/dev/null; then
+        echo "${cmd-}"
+      fi
+    done
+  ))
+  if [[ "${#not_found_commands[@]}" -eq 0 ]]; then
+    return
+  fi
+  LogshError "command not found: ${not_found_commands[*]}"
+  exit 127
+}
+
+ResolveProgramVersion() {
+  local version && version=$(
+    if [[ ${!env_key_version:-} = latest ]] || [[ ${!env_key_version:-} = stable ]]; then
+      GetProgramLatestStableVersion
+    elif [[ ${!env_key_version:-} ]]; then
+      echo "${!env_key_version:?}"
+    else
+      ver=$(GetProgramLatestStableVersion)
+      LogshNotice "env ${env_key_version:?} is not set. Use latest stable version: ${env_key_version:?}=${ver:-"?"}"
+      echo "${ver:-}"
+    fi
+  )
+  if [[ "${version:-}" ]]; then
+    echo "${version:?}"
+    return 0
+  else
+    LogshError "Failed to resolve version"
+    return 1
+  fi
+}
+
+Prepare() {
+  if [[ ${vers_prepared:-} = "${exe_filename:?}" ]]; then
+    return 0
+  else
+    vers_prepared="${exe_filename:?}"
+  fi
+  # common vars
+  cache_dir=~/.cache/versenv
+  # vars
+  prog_version="$(ResolveProgramVersion)"
+  prog_versions_dir="${cache_dir:?}/${exe_filename:?}"
+  prog_version_dir="${prog_versions_dir:?}/${prog_version:?}"
+  prog_version_tmp_dir="${prog_version_dir:?}/tmp"
+  prog_version_bin_dir="${prog_version_dir:?}/bin"
+  prog_version_exe="${prog_version_bin_dir:?}/${exe_filename:?}"
+  # Create directories in idempotent
+  mkdir -p "${prog_version_tmp_dir:?}" "${prog_version_bin_dir:?}"
+}
+
+Usage() {
+  cat <<EOF
+Usage: $(basename "$0") versenv [-h] subcommand
+
+versenv is a set of wrapper scripts to simplify the installation and versioning of executables.
+
+Available subcommands:
+
+self-update     Update versenv script itself
+versions        Print available versions
+stables         Print available stable versions
+
+Available options:
+
+-h, --help      Print this help and exit
+EOF
+  return 0
+}
+
+Main() {
+  case "${1-}" in
+  "versenv")
+    case "${2-}" in
+    "self-update")
+      SubcommandSelfUpdate
+      ;;
+    "versions")
+      SubcommandGetProgramVersions
+      ;;
+    "stables")
+      SubcommandGetProgramStableVersions
+      ;;
+    "-h"|"--help"|"help")
+      Usage
+      ;;
+    *)
+      Usage
+      ;;
+    esac
+    ;;
+  *)
+    ExecProgram "$@"
+    return $?
+    ;;
+  esac
+}
+
+Main "$@"
