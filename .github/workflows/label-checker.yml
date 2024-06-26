@@ -33,8 +33,7 @@ env:
   LABELS: "BREAKING CHANGE,build,ci,docs,feat,fix,perf,refactor,test,chore"
 
 jobs:
-  check:
-    name: Check labels
+  label-checker:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
