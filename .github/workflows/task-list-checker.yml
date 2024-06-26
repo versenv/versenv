@@ -10,8 +10,7 @@ on:
       - synchronize
 
 jobs:
-  check:
-    name: Check task list
+  task-list-checker:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
