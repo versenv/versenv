@@ -3,6 +3,7 @@
 
 [![license](https://img.shields.io/github/license/versenv/versenv)](LICENSE)
 [![workflow](https://github.com/versenv/versenv/workflows/sh-test/badge.svg)](https://github.com/versenv/versenv/tree/main)
+[![workflow](https://github.com/versenv/versenv/workflows/shellcheck/badge.svg)](https://github.com/versenv/versenv/tree/main)
 
 `versenv` is a set of wrapper scripts to simplify the installation and versioning of executables such as kubectl, Terraform and Packer.
 
