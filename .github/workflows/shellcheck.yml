@@ -1,7 +1,7 @@
-name: sh-test
-#     ~~~~~~~
-# https://github.com/versenv/versenv/workflows/sh-test/badge.svg
-#                                              ~~~~~~~
+name: shellcheck
+#     ~~~~~~~~~~
+# https://github.com/versenv/versenv/workflows/shellcheck/badge.svg
+#                                              ~~~~~~~~~~
 
 on:
   schedule:
@@ -52,7 +52,7 @@ jobs:
   # > Note: A job that is skipped will report its status as "Success".
   # > It will not prevent a pull request from merging, even if it is a required check.
   # ref. https://docs.github.com/en/actions/using-jobs/using-conditions-to-control-job-execution#overview
-  sh-test:
+  shellcheck:
     runs-on: ubuntu-latest
     needs: paths-ignore
     if: ${{ needs.paths-ignore.outputs.skip != 'true' }}
@@ -71,7 +71,7 @@ jobs:
           ${{ toJSON(github) }}
           ================================================================
           DEBUG_DOC
-      - name: Run test.sh
+      - name: Run shellcheck
         working-directory: ${{ env.WORKDIR }}
         run: |
-          ${{ env.WORKDIR }}/test.sh
+          shellcheck bin/*

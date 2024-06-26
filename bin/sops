@@ -67,7 +67,6 @@ InstallProgram() {
   DownloadURL "${download_url:?}" "${downloaded_path:?}"
   # install
   LogshNotice "Install ${downloaded_path:?} to ${prog_version_exe:?}"
-  local unzipped_path="${prog_version_tmp_dir:?}/${exe_filename:?}"
   LogshExec mv -f "${downloaded_path:?}" "${prog_version_exe:?}"
   LogshExec chmod +x "${prog_version_exe:?}"
 }
