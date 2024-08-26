@@ -33,6 +33,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`buf`](/bin/buf)             | https://github.com/bufbuild/buf               | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/buf -o ./buf && chmod +x ./buf</pre></code>                   |
 | [`awscliv2`](/bin/aws)        | https://github.com/aws/aws-cli/tree/v2        | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/aws -o ./aws && chmod +x ./aws</pre></code>                   |
 | [`sops`](/bin/sops)           | https://github.com/getsops/sops               | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/sops -o ./sops && chmod +x ./sops</pre></code>                |
+| [`gitleaks`](/bin/gitleaks)   | https://github.com/gitleaks/gitleaks          | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/gitleaks -o ./gitleaks && chmod +x ./gitleaks</pre></code>    |
 
 <details><summary>Other</summary>
 

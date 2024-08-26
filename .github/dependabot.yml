@@ -15,9 +15,9 @@ updates:
       - "dependencies"
       - "github_actions"
     assignees:
-      - "ginokent"
+      - "versenv/owner"
     reviewers:
-      - "ginokent"
+      - "versenv/owner"
     groups:
       dependencies:
         patterns:

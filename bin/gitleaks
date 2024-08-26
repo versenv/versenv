@@ -4,9 +4,9 @@
 set -Eeu -o pipefail
 
 # versenv unique
-exe_filename=arcgen
-env_key_version=ARCGEN_VERSION
-git_url_prefix=https://github.com/kunitsucom/arcgen
+exe_filename=gitleaks
+env_key_version=GITLEAKS_VERSION
+git_url_prefix=https://github.com/gitleaks/gitleaks
 
 GetProgramLatestStableVersion() { HeadURL "${git_url_prefix:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
 SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags "${git_url_prefix:?}.git" | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }
@@ -17,7 +17,7 @@ FindTargetZipDownloadURL() {
   local prog_os="${2:?}"
   local prog_arch="${3:?}"
   local path_suffix && path_suffix=$(
-    GetURLs "${git_url_prefix:?}/releases/expanded_assets/"{,v}"${prog_version:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)\"" | sed 's/href="//; s/"$//'
+    GetURLs "${git_url_prefix:?}/releases/expanded_assets/"{,v}"${prog_version:?}" | grep -Eo "href=\"[^\"]+/v?${prog_version:?}/[^\"]*${prog_os:?}[^\"]*${prog_arch:?}[^\"]*\.(zip|tar|tgz|tar\.gz)" | sed 's/href="//'
   )
   echo "https://github.com${path_suffix:?}"
 }
@@ -40,20 +40,11 @@ InstallProgram() {
   Prepare
   # vars
   local prog_version="${1:?}"
-  local machine_os && machine_os=$(uname -s)
-  local prog_os
-  if [[ ${machine_os:?} = Darwin ]]; then
-    prog_os=darwin
-  elif [[ ${machine_os:?} = Linux ]]; then
-    prog_os=linux
-  else
-    LogshError "os (${machine_os:?}) is not supported"
-    exit 1
-  fi
+  local prog_os && prog_os=$(uname -s | tr '[:upper:]' '[:lower:]')
   local machine_arch && machine_arch=$(uname -m)
   local prog_arch
   if [[ ${machine_arch:?} = x86_64 ]]; then
-    prog_arch=amd64
+    prog_arch=x64
   elif [[ ${machine_arch:?} = arm64 ]] || [[ ${machine_arch:?} = aarch64 ]]; then
     prog_arch=arm64
   else
