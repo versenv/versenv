@@ -6,7 +6,7 @@
 > *Please fill in the ticket or issue number.*
 > > Example:
 > >
-> > #3
+> > #1
 
 ## What's changed
 
