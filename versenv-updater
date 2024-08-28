@@ -4,7 +4,7 @@ set -Eeu -o pipefail
 # for versenv
 export VERSENV_PATH="${1:-.}"
 # shellcheck disable=SC2038,SC2155
-export VERSENV_SCRIPTS=$(find "${VERSENV_PATH:?}" -mindepth 1 -maxdepth 1 -type f -exec grep -l "[#] Apache License 2.0 Copyright (c) 2022 kunitsucom https://github.com/versenv/versenv" {} \+ | xargs -I{} basename {} | tr '\n' ',' | sed 's/,$//')
+export VERSENV_SCRIPTS=$(find "${VERSENV_PATH:?}" -mindepth 1 -maxdepth 1 -type f -exec grep -l "[#] LICENSE: https://github.com/versenv/versenv/blob/HEAD/LICENSE" {} \+ | xargs -I{} basename {} | tr '\n' ',' | sed 's/,$//')
 
 # check
 if [[ -z "${VERSENV_SCRIPTS:-}" ]]; then
