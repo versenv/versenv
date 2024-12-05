@@ -41,25 +41,25 @@ PATH="$(pwd -P)/bin:${PATH:-}"
 export PATH
 
 
-LogshExec kubectl version --client || err=$((err+$?))
-LogshExec terraform version || err=$((err+$?))
-LogshExec packer version || err=$((err+$?))
-LogshExec helm version || err=$((err+$?))
-LogshExec eksctl version || err=$((err+$?))
-LogshExec protoc --version || err=$((err+$?))
-LogshExec buf --version || err=$((err+$?))
+LogshExec kubectl version --client || { LogshError "failed"; err=$((err+$?)); }
+LogshExec terraform version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec packer version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec helm version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec eksctl version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec protoc --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec buf --version || { LogshError "failed"; err=$((err+$?)); }
 #LogshExec aws --version  # Comment out because it takes too long.
 
-LogshExec direnv version || err=$((err+$?))
-LogshExec golangci-lint --version || err=$((err+$?))
-LogshExec goreleaser --version || err=$((err+$?))
-LogshExec stern --version || err=$((err+$?))
-LogshExec ghq --version || err=$((err+$?))
-LogshExec fzf --version || err=$((err+$?))
-LogshExec migrate --version || err=$((err+$?))
-LogshExec hammer version || err=$((err+$?))
-LogshExec typos --version || err=$((err+$?))
-LogshExec arcgen --version || err=$((err+$?))
-LogshExec ddlctl version || err=$((err+$?))
-LogshExec sops --version || err=$((err+$?))
-LogshExec gitleaks version || err=$((err+$?))
+LogshExec direnv version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec golangci-lint --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec goreleaser --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec stern --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec ghq --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec fzf --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec migrate --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec hammer version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec typos --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec arcgen --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec ddlctl version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec sops --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec gitleaks version || { LogshError "failed"; err=$((err+$?)); }
