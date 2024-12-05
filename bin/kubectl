@@ -27,7 +27,7 @@ InstallProgram() {
     LogshError "arch (${machine_arch:?}) is not supported"
     exit 1
   fi
-  local download_url && download_url="https://storage.googleapis.com/kubernetes-release/release/v${prog_version:?}/bin/${prog_os:?}/${prog_arch:?}/${exe_filename:?}"
+  local download_url && download_url="https://dl.k8s.io/release/v${prog_version:?}/bin/${prog_os:?}/${prog_arch:?}/${exe_filename:?}"
   local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
   # download
   LogshNotice "Download ${download_url:?}"
