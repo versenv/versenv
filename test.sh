@@ -38,7 +38,7 @@ fi
 
 # local
 ./testcases.sh || err=$((err+$?))
-# debian:12
-docker run --rm -v "$(pwd -P)":"$(pwd -P)" -w "$(pwd -P)" -e LOGSH_COLOR=true debian:12 sh -c 'apt-get update -qqy && apt-get install -qqy curl zip && ./testcases.sh' || err=$((err+$?))
-# ubuntu:22.04
-docker run --rm -v "$(pwd -P)":"$(pwd -P)" -w "$(pwd -P)" -e LOGSH_COLOR=true ubuntu:22.04 sh -c 'apt-get update -qqy && apt-get install -qqy curl zip && ./testcases.sh' || err=$((err+$?))
+# debian:latest
+docker run --rm -v "$(pwd -P)":"$(pwd -P)" -w "$(pwd -P)" -e LOGSH_COLOR=true debian:latest sh -c 'apt-get update -qqy && apt-get install -qqy curl zip && ./testcases.sh' || err=$((err+$?))
+# ubuntu:latest
+docker run --rm -v "$(pwd -P)":"$(pwd -P)" -w "$(pwd -P)" -e LOGSH_COLOR=true ubuntu:latest sh -c 'apt-get update -qqy && apt-get install -qqy curl zip && ./testcases.sh' || err=$((err+$?))
