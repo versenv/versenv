@@ -41,16 +41,7 @@ InstallProgram() {
   # vars
   local prog_version="${1:?}"
   local prog_os && prog_os=$(uname -s)
-  local machine_arch && machine_arch=$(uname -m)
-  local prog_arch
-  if [[ ${machine_arch:?} = x86_64 ]]; then
-    prog_arch=amd64
-  elif [[ ${machine_arch:?} = arm64 ]] || [[ ${machine_arch:?} = aarch64 ]]; then
-    prog_arch=arm64
-  else
-    LogshError "arch (${machine_arch:?}) is not supported"
-    exit 1
-  fi
+  local prog_arch && prog_arch=$(uname -m)
   local download_url && download_url="$(FindTargetZipDownloadURL "${prog_version:?}" "${prog_os:?}" "${prog_arch:?}")"
   local downloaded_path && downloaded_path=${prog_version_tmp_dir:?}/$(basename "${download_url:?}")
   # download
