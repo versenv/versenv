@@ -52,6 +52,7 @@ LogshExec buf --version || err=$((err+$?))
 
 LogshExec direnv version || err=$((err+$?))
 LogshExec golangci-lint --version || err=$((err+$?))
+LogshExec goreleaser --version || err=$((err+$?))
 LogshExec stern --version || err=$((err+$?))
 LogshExec ghq --version || err=$((err+$?))
 LogshExec fzf --version || err=$((err+$?))
