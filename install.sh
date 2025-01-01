@@ -5,7 +5,7 @@ set -Eeu -o pipefail
 # HOW TO USE
 # $ curl --tlsv1.2 -fLRSs https://raw.githubusercontent.com/versenv/versenv/HEAD/download.sh | INSTALL_DIR=/tmp/versenv/bin bash
 
-# LICENSE: https://github.com/kunitsucom/log.sh/blob/HEAD/LICENSE
+# LICENSE: https://github.com/hakadoriya/log.sh/blob/HEAD/LICENSE
 # Common
 if [ "${LOGSH_COLOR:-}" ] || [ -t 2 ] ; then LOGSH_COLOR=true; else LOGSH_COLOR=''; fi
 _logshRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
@@ -53,7 +53,7 @@ Main() {
   # shellcheck disable=SC2207
   local -a scripts=($(echo "${VERSENV_SCRIPTS:-}" | sed "s/ *//g; s/,/ /g"))
   if [[ ${#scripts[@]} -eq 0 ]]; then
-    scripts=(kubectl terraform packer helm eksctl protoc buf aws direnv golangci-lint goreleaser stern ghq fzf migrate hammer typos arcgen ddlctl sops gitleaks)
+    scripts=(kubectl terraform packer helm eksctl protoc buf aws direnv golangci-lint goreleaser stern ghq fzf migrate hammer typos arcgen ddlctl sops gitleaks sccache)
   fi
   # shellcheck disable=SC2001
   local install_dir && install_dir=$(echo "${VERSENV_PATH:-"${PWD:-.}"}" | sed "s|//*|/|g; s|/$||")
