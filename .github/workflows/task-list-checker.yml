@@ -11,18 +11,13 @@ on:
 
 jobs:
   task-list-checker:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      id-token: write
       contents: read
       pull-requests: read
-      statuses: write
-    defaults:
-      run:
-        shell: bash
     steps:
-      - name: Check for incomplete task list items
-        uses: Shopify/task-list-checker@7cab3e5a969a34f8c553974bc6f8940d8c3978de # ref. https://github.com/Shopify/task-list-checker
+      - uses: hakadoriya/github-actions-task-list-checker@v0.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
