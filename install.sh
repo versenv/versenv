@@ -7,7 +7,7 @@ set -Eeu -o pipefail
 
 # LICENSE: https://github.com/hakadoriya/log.sh/blob/HEAD/LICENSE
 # Common
-if [ "${LOGSH_COLOR:-}" ] || [ -t 2 ] ; then LOGSH_COLOR=true; else LOGSH_COLOR=''; fi
+if [ "${LOGSH_COLOR:-}" ] || [ -t 2 ]; then LOGSH_COLOR=true; else LOGSH_COLOR=''; fi
 _logshRFC3339() { date "+%Y-%m-%dT%H:%M:%S%z" | sed "s/\(..\)$/:\1/"; }
 _logshCmd() { for a in "$@"; do if echo "${a:-}" | grep -Eq "[[:blank:]]"; then printf "'%s' " "${a:-}"; else printf "%s " "${a:-}"; fi; done | sed "s/ $//"; }
 # Color
@@ -53,7 +53,31 @@ Main() {
   # shellcheck disable=SC2207
   local -a scripts=($(echo "${VERSENV_SCRIPTS:-}" | sed "s/ *//g; s/,/ /g"))
   if [[ ${#scripts[@]} -eq 0 ]]; then
-    scripts=(kubectl terraform packer helm eksctl protoc buf aws direnv golangci-lint goreleaser stern ghq fzf migrate hammer typos arcgen ddlctl sops gitleaks sccache)
+    scripts=(
+      arcgen
+      awscliv2
+      buf
+      ddlctl
+      direnv
+      eksctl
+      fzf
+      ghq
+      gitleaks
+      golangci-lint
+      goreleaser
+      hammer
+      helm
+      kubectl
+      migrate
+      packer
+      protoc
+      sccache
+      sops
+      stern
+      terraform
+      typos
+      versenv
+    )
   fi
   # shellcheck disable=SC2001
   local install_dir && install_dir=$(echo "${VERSENV_PATH:-"${PWD:-.}"}" | sed "s|//*|/|g; s|/$||")

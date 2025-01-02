@@ -41,26 +41,25 @@ PATH="$(pwd -P)/bin:${PATH:-}"
 export PATH
 
 
-LogshExec kubectl version --client || { LogshError "failed"; err=$((err+$?)); }
-LogshExec terraform version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec packer version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec helm version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec eksctl version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec protoc --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec buf --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec arcgen --version || { LogshError "failed"; err=$((err+$?)); }
 #LogshExec aws --version  # Comment out because it takes too long.
-
+LogshExec buf --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec ddlctl version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec direnv version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec eksctl version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec fzf --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec ghq --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec gitleaks version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec golangci-lint --version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec goreleaser --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec stern --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec ghq --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec fzf --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec migrate --version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec hammer version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec typos --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec arcgen --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec ddlctl version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec sops --version || { LogshError "failed"; err=$((err+$?)); }
-LogshExec gitleaks version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec helm version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec kubectl version --client || { LogshError "failed"; err=$((err+$?)); }
+LogshExec migrate --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec packer version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec protoc --version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec sccache --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec sops --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec stern --version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec terraform version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec typos --version || { LogshError "failed"; err=$((err+$?)); }
