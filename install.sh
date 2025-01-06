@@ -75,6 +75,7 @@ Main() {
       sops
       stern
       terraform
+      tflint
       typos
       versenv
     )

@@ -62,4 +62,5 @@ LogshExec sccache --version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec sops --version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec stern --version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec terraform version || { LogshError "failed"; err=$((err+$?)); }
+LogshExec tflint --version || { LogshError "failed"; err=$((err+$?)); }
 LogshExec typos --version || { LogshError "failed"; err=$((err+$?)); }
