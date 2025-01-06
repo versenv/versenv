@@ -1,0 +1,20 @@
+name: auto-assign
+
+on:
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+
+jobs:
+  auto-assign:
+    if: github.actor != 'dependabot[bot]' && github.actor != 'renovate[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - if: ${{ toJSON(github.event.pull_request.assignees) == '[]' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr --repo ${{ github.repository }} edit ${{ github.event.pull_request.number }} --add-assignee "${{ github.event.pull_request.user.login }}"

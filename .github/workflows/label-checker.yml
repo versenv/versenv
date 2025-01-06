@@ -1,12 +1,15 @@
 name: label-checker
 
-# Dependabot
+# # Dependabot
 # gh label create --force "dependencies" --description "Pull requests that update a dependency file" --color 0366D6
 # gh label create --force "go" --description "Pull requests that update Go code" --color 16E2E2
 # gh label create --force "github_actions" --description "Pull requests that update GitHub Actions code" --color 000000
 # gh label create --force "docker" --description "Pull requests that update Docker code" --color 21CEFF
 
-# Commit prefix
+# # Renovate
+# gh label create --force "renovate" --description "Renovate" --color 009485
+
+# # Commit prefix
 # gh label create --force "BREAKING CHANGE" --description "BREAKING CHANGES" --color FF0303
 # gh label create --force "build" --description "Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)" --color 5319E7
 # gh label create --force "ci" --description "Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)" --color 53C4EE
