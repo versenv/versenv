@@ -6,7 +6,7 @@ set -Eeu -o pipefail
 # versenv unique
 exe_filename=ddlctl
 env_key_version=DDLCTL_VERSION
-git_url_prefix=https://github.com/kunitsucom/ddlctl
+git_url_prefix=https://github.com/hakadoriya/ddlctl
 
 GetProgramLatestStableVersion() { HeadURL "${git_url_prefix:?}/releases/latest" | awk -F"/tag/" "/^[Ll]ocation:/ {print \$2}" | tr -d "[:cntrl:]" | tr -d "^v" | tail -n 1; }
 SubcommandGetProgramVersions() { git ls-remote --quiet --refs --tags "${git_url_prefix:?}.git" | grep -Eo "v?[0-9]+\.[0-9]+\.[0-9]+(-[^\"]+)?" | tr -d "^v" | sort -uV; }

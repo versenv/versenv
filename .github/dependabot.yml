@@ -11,9 +11,7 @@ updates:
     commit-message:
       prefix: "ci(github-actions): "
     labels:
-      - "build"
-      - "dependencies"
-      - "github_actions"
+      - "ci"
     assignees:
       - "versenv/owner"
     reviewers:

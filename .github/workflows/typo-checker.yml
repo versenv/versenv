@@ -17,27 +17,30 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  WORKDIR: .
+
 defaults:
   run:
     shell: bash
 
 jobs:
-  typo-checker:
-    runs-on: ubuntu-latest
+  typo-checker: # NOTE: for Branch protection rule `Status checks that are required.`
+    runs-on: ubuntu-latest # ref. https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
     steps:
       - uses: actions/checkout@v4
-      - name: Check spelling
-        uses: crate-ci/typos@master
       - name: DEBUG
-        if: always()
         shell: bash
         run: |
           cat <<'DEBUG_DOC'
           == DEBUG =======================================================
-          -- github -----------------------------------------------------
-          github.event_name: ${{ github.event_name }}
           github.ref: ${{ github.ref }}
+          github.event_name: ${{ github.event_name }}
+          -- toJSON(github.event.inputs) ---------------------------------
+          ${{ toJSON(github.event.inputs) }}
           -- toJSON(github) ----------------------------------------------
           ${{ toJSON(github) }}
           ================================================================
           DEBUG_DOC
+      - name: Check spelling
+        uses: crate-ci/typos@master
