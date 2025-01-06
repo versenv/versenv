@@ -33,6 +33,7 @@ Each wrapper script provided by `versenv` automatically downloads the executable
 | [`protoc`](/bin/protoc)       | https://github.com/protocolbuffers/protobuf   | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/protoc -o ./protoc && chmod +x ./protoc</pre></code>          |
 | [`sops`](/bin/sops)           | https://github.com/getsops/sops               | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/sops -o ./sops && chmod +x ./sops</pre></code>                |
 | [`terraform`](/bin/terraform) | https://www.terraform.io/                     | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/terraform -o ./terraform && chmod +x ./terraform</pre></code> |
+| [`tflint`](/bin/tflint)       | https://github.com/terraform-linters/tflint   | <pre><code>curl --tlsv1.2 -#fLR https://raw.githubusercontent.com/versenv/versenv/HEAD/bin/tflint -o ./tflint && chmod +x ./tflint</pre></code>          |
 
 <details><summary>Other</summary>
 
