@@ -2,7 +2,7 @@
 
 ## Ticket / Issue Number
 
-> [!NOTE]
+> **Note**
 > *Please fill in the ticket or issue number.*
 > > Example:
 > >
@@ -10,20 +10,22 @@
 
 ## What's changed
 
-> [!NOTE]
+> **Note**
 > *Please explain what changes this pull request will make.*
 > > Example:
 > >
-> > * Added functionality to perform 'bar' on 'foo'.
+> > - Added functionality to perform 'bar' on 'foo'.
 
 ## Check List
 
 - [ ] Assign labels
+- [ ] Assign reviewers
+- [ ] Assign assignees
 - [ ] Add appropriate test cases
 
 ## Remark
 
-> [!NOTE]
+> **Note**
 > *Please provide additional remarks if necessary.*
 
 <!-- markdownlint-enable MD004 MD041 -->
