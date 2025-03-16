@@ -1,0 +1,15 @@
+repositories:
+  - type: http
+    url: https://github.com/hakadoriya/ddlctl
+    base:
+      url_template: https://github.com/hakadoriya/ddlctl/releases/download/{{.Version}}/ddlctl_{{.Version}}_{{.OS}}_{{.Arch}}{{.Ext}}
+    versions:
+      - version: v0.0.18-rc.3
+        artifacts:
+          - prefix: ddlctl
+            os: Darwin
+            arch: arm64
+            ext: tar.gz
+      - version: v0.0.18-rc.2
+        artifacts:
+          - { os: Darwin, arch: arm64, ext: tar.gz, hash: { algorithm: sha256, value: "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef" } }
