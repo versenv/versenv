@@ -57,7 +57,7 @@ jobs:
     needs: paths-filter
     if: ${{ needs.paths-filter.outputs.skip != 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: DEBUG
         shell: bash
         run: |
