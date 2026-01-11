@@ -1,0 +1,10 @@
+[files]
+extend-exclude = [
+  ".tmp",
+  ".typos.toml",
+]
+
+[default.extend-words]
+# If it is a false positive, add the word to the dictionary as follows.
+# NotTypoWord = "NotTypoWord"
+ocation = "ocation" # [Ll]ocation
