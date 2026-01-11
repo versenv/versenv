@@ -1,0 +1,24 @@
+# cSpell Configuration File
+# - ref: https://github.com/streetsidesoftware/cspell
+#
+# ## To run locally;
+# $ cspell "**/*"
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+version: "0.2"
+allowCompoundWords: true
+ignorePaths:
+  - ".bin/**"
+  - ".git/**"
+  - ".tmp/**"
+words:
+  - CEFF # a part of color code
+  - direnv # https://github.com/direnv/direnv
+  - dotenv # .env
+  - EEEF # a part of color code
+  - Eeuo # set -Eeuo pipefail
+  - envrc # https://github.com/direnv/direnv
+  - ginokent # https://github.com/ginokent
+  - hakadoriya # https://github.com/hakadoriya
+  - msvc # x86_64-pc-windows-msvc
+  - ocation # [Ll]ocation
+  - versenv # https://github.com/versenv/versenv
