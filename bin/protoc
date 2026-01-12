@@ -193,7 +193,7 @@ Prepare() {
     vers_prepared="${exe_filename:?}"
   fi
   # common vars
-  cache_dir=~/.cache/versenv
+  cache_dir="${XDG_CACHE_HOME:-${HOME:-/tmp}/.cache}/versenv"
   # vars
   prog_version="$(ResolveProgramVersion)"
   prog_versions_dir="${cache_dir:?}/${exe_filename:?}"
