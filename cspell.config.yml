@@ -11,14 +11,29 @@ ignorePaths:
   - ".git/**"
   - ".tmp/**"
 words:
+  - aarch # aarch64 architecture
+  - AWSCLI # AWS CLI
+  - awscliv # AWS CLI v2
   - CEFF # a part of color code
+  - cntrl # shell character class [:cntrl:]
+  - ddlctl # https://github.com/hakadoriya/ddlctl
   - direnv # https://github.com/direnv/direnv
+  - dlmno # getopts optstring
   - dotenv # .env
   - EEEF # a part of color code
   - Eeuo # set -Eeuo pipefail
+  - eksctl # https://github.com/eksctl-io/eksctl
+  - elif # shell keyword
   - envrc # https://github.com/direnv/direnv
+  - esac # shell keyword
   - ginokent # https://github.com/ginokent
+  - golangci # https://github.com/golangci/golangci-lint
   - hakadoriya # https://github.com/hakadoriya
+  - logsh # shell logging function
   - msvc # x86_64-pc-windows-msvc
   - ocation # [Ll]ocation
+  - protoc # Protocol Buffers compiler
+  - sccache # https://github.com/mozilla/sccache
+  - tflint # https://github.com/terraform-linters/tflint
+  - tlsv # TLS version option
   - versenv # https://github.com/versenv/versenv
