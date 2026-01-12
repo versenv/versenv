@@ -7,4 +7,12 @@ extend-exclude = [
 [default.extend-words]
 # If it is a false positive, add the word to the dictionary as follows.
 # NotTypoWord = "NotTypoWord"
+AWSCLI = "AWSCLI" # AWS CLI
+cntrl = "cntrl" # shell character class [:cntrl:]
+dlmno = "dlmno" # getopts optstring
+elif = "elif" # shell keyword
+esac = "esac" # shell keyword
+logsh = "logsh" # shell logging function
 ocation = "ocation" # [Ll]ocation
+tflint = "tflint" # https://github.com/terraform-linters/tflint
+tlsv = "tlsv" # TLS version option
