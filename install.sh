@@ -55,7 +55,7 @@ Main() {
   if [[ ${#scripts[@]} -eq 0 ]]; then
     scripts=(
       arcgen
-      awscliv2
+      aws
       buf
       ddlctl
       direnv
@@ -77,7 +77,6 @@ Main() {
       terraform
       tflint
       typos
-      versenv
     )
   fi
   # shellcheck disable=SC2001
