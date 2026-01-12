@@ -28,7 +28,7 @@ FindTargetZipDownloadURL() {
 }
 
 InstallProgram() {
-  MustFoundCommands tar
+  MustFoundCommands unzip
   Prepare
   # vars
   local prog_version="${1:?}"
