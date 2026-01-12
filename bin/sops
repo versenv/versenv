@@ -36,7 +36,6 @@ Unzip() {
 }
 
 InstallProgram() {
-  MustFoundCommands tar
   Prepare
   # vars
   local prog_version="${1:?}"
