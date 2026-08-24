@@ -28,7 +28,7 @@ jobs:
   typo-checker: # NOTE: for Branch protection rule `Status checks that are required.`
     runs-on: ubuntu-latest # ref. https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: DEBUG
         shell: bash
         run: |
@@ -45,4 +45,4 @@ jobs:
       # ref: https://github.com/crate-ci/typos
       - uses: crate-ci/typos@master
       # ref: https://github.com/streetsidesoftware/cspell-action
-      - uses: streetsidesoftware/cspell-action@v8
+      - uses: streetsidesoftware/cspell-action@v9
