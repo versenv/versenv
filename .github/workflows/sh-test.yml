@@ -38,7 +38,7 @@ jobs:
     outputs:
       skip: ${{ steps.paths-filter.outputs.skip }}
     steps:
-      - uses: hakadoriya/github-actions-paths-filter-alternative@v1.0.1
+      - uses: hakadoriya/github-actions-paths-filter-alternative@v1.0.2
         id: paths-filter
         with:
           paths-ignore: |-
@@ -57,7 +57,7 @@ jobs:
     needs: paths-filter
     if: ${{ needs.paths-filter.outputs.skip != 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: DEBUG
         shell: bash
         run: |
